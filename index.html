@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Harsh Nagrani</title>
 <meta property="og:title" content="Harsh Nagrani · Walk me home">
-<meta property="og:description" content="Software engineer at IKS Health. Walk me home from the office past five checkpoints, with a detour down Arcade Lane for tennis, gully cricket and a kite fight.">
+<meta property="og:description" content="Software engineer at IKS Health. Walk me home from the office past six checkpoints, including a bookstore of my writing, with a detour down Arcade Lane for tennis, gully cricket and a kite fight.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#232850">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231b2236'/%3E%3Cpath d='M32 10 50 32 32 54 14 32z' fill='%23ffd43c'/%3E%3C/svg%3E">
-<meta name="description" content="Harsh Nagrani, software engineer at IKS Health. Walk home from the office through five checkpoints, with a detour down Arcade Lane for tennis, gully cricket and a kite fight.">
+<meta name="description" content="Harsh Nagrani, software engineer at IKS Health. Walk home from the office through six checkpoints, including a bookstore of his writing, with a detour down Arcade Lane for tennis, gully cricket and a kite fight.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@400;500&family=Shantell+Sans:wght@400;600&display=swap">
@@ -39,6 +39,8 @@
   --shadow:#1b2236;
   --on-hl:#1b2236;
   --on-arcade:#ffffff;
+  --brass:#e7b765;
+  --fade:#f6e3bd;
   --f-display:"Bricolage Grotesque","Arial Narrow",system-ui,sans-serif;
   --f-body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --f-hand:"Shantell Sans","Segoe Print","Comic Sans MS",cursive;
@@ -50,12 +52,14 @@
   :root:not([data-theme="light"]){
     --ink:#e8eaf4;--ink-2:#a6aec8;--paper:#141a2e;--card:#1b2340;--grid:rgba(150,180,255,.08);--rule:rgba(232,234,244,.2);
     --margin:#f07567;--pen:#93b2ff;--dusk:#0b1022;--stage:#0a0d1c;--hud:#0f1427;--hud-fg:#eef0f7;--hud-line:rgba(238,240,247,.16);--shadow:#02040b;
+    --fade:#120c06;
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --ink:#e8eaf4;--ink-2:#a6aec8;--paper:#141a2e;--card:#1b2340;--grid:rgba(150,180,255,.08);--rule:rgba(232,234,244,.2);
   --margin:#f07567;--pen:#93b2ff;--dusk:#0b1022;--stage:#0a0d1c;--hud:#0f1427;--hud-fg:#eef0f7;--hud-line:rgba(238,240,247,.16);--shadow:#02040b;
+  --fade:#120c06;
   color-scheme:dark;
 }
 .night .only-light,html:not(.night) .only-dark{display:none}
@@ -294,6 +298,51 @@ button.chip:hover{color:var(--highlight)}
 .game-foot .btn{padding:8px 13px;font-size:13px;background:transparent;color:var(--hud-fg);border-color:var(--on-ink-dim)}
 .game-foot .btn:hover{background:var(--hud-fg);color:var(--hud)}
 
+/* ---------- the bookstore ---------- */
+.store{position:fixed;inset:0;z-index:9;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between;gap:12px;padding-top:calc(env(safe-area-inset-top,0px) + 14px);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 14px);padding-left:max(16px, env(safe-area-inset-left,0px));padding-right:max(16px, env(safe-area-inset-right,0px))}
+.store-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.store-title{pointer-events:auto;background:var(--hud);color:var(--hud-fg);border-radius:14px;padding:11px 16px 12px;box-shadow:inset 0 0 0 1px var(--hud-line);min-width:0}
+.store-title .eyebrow{color:var(--on-ink-2)}
+.store-title h2{font:800 clamp(24px,3.2vw,32px)/1 var(--f-display);letter-spacing:-.02em;margin:6px 0 5px}
+.store-title .sub{margin:0;font:400 15px/1.3 var(--f-hand);color:var(--brass)}
+.store-tools{pointer-events:auto;display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.store-tools .chip{height:40px}
+.store-leave{padding:10px 15px;font-size:14px;background:var(--hud);color:var(--hud-fg);border-color:var(--hud-fg)}
+.store-foot{display:flex;justify-content:space-between;align-items:flex-end;gap:10px}
+.store-foot > *{pointer-events:auto}
+.store-foot .btn{padding:10px 15px;font-size:14px}
+.store-foot #storePrev{background:var(--hud);color:var(--hud-fg);border-color:var(--hud-fg)}
+.shelf-index{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px;background:var(--hud);color:var(--hud-fg);border-radius:14px;padding:7px;box-shadow:inset 0 0 0 1px var(--hud-line);min-width:0}
+.shelf-lbl{font:500 11px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--on-ink-2);padding:0 6px}
+.shelf-index button{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--hud-fg);border:1.5px solid var(--on-ink-dim);border-radius:999px;padding:7px 12px 7px 8px;font:700 13px/1.1 var(--f-body);cursor:pointer;text-align:left}
+.shelf-index .swatch{flex:none;width:9px;height:20px;border-radius:2px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
+.shelf-index button:hover,.shelf-index button[aria-pressed="true"]{background:var(--brass);color:var(--on-hl);border-color:var(--brass)}
+.store-tip{position:fixed;left:0;top:0;z-index:12;pointer-events:none;background:var(--paper);color:var(--ink);border:2px solid var(--ink);border-radius:10px;padding:6px 10px;font:700 13px/1.2 var(--f-body);box-shadow:0 3px 0 var(--shadow);white-space:nowrap}
+.book-card{pointer-events:auto;position:fixed;z-index:10;right:max(28px, env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%) rotate(.6deg);width:min(410px, calc(100% - 32px));max-height:calc(100% - 200px);overflow:auto;background-color:var(--paper);background-image:linear-gradient(var(--grid) 1px, transparent 1px),linear-gradient(90deg, var(--grid) 1px, transparent 1px);background-size:22px 22px;color:var(--ink);border:2px solid var(--ink);border-radius:8px;box-shadow:6px 6px 0 var(--brass);padding:20px 22px}
+.book-card .eyebrow{color:var(--ink-2)}
+.book-card h3{font:800 clamp(24px,3vw,30px)/1.05 var(--f-display);letter-spacing:-.02em;margin:8px 0 8px;text-wrap:balance}
+.book-card .hand{margin:0 0 12px}
+.book-card p{margin:0 0 12px;line-height:1.5}
+.book-card .tags{margin-bottom:4px}
+.fade{position:fixed;inset:0;z-index:28;background:var(--fade);opacity:0;pointer-events:none}
+.toast{z-index:40}
+.store-open .topbar,.store-open .rail,.store-open .prompt,.store-open .pins,.store-open .intro,
+.store-entering .rail,.store-entering .prompt,.store-entering .pins,.store-entering .intro{opacity:0 !important;pointer-events:none !important}
+.store-open .topbar *,.store-entering .rail *{pointer-events:none !important}
+.static .store,.static .store-tip,.static .fade{display:none !important}
+
+/* the shelf on the text-only page */
+.bookshelf{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:16px}
+.book{display:grid;grid-template-columns:22px minmax(0,1fr);background:var(--card);border:2px solid var(--ink);border-radius:4px 8px 8px 4px;box-shadow:5px 5px 0 var(--shadow);color:var(--ink);text-decoration:none;overflow:hidden;transition:transform .2s}
+.book:hover{transform:translate(-2px,-2px)}
+.book-spine{background:var(--book);box-shadow:inset -3px 0 0 var(--book-accent)}
+.book-body{display:flex;flex-direction:column;gap:5px;padding:14px 16px 16px}
+.book-body strong{font:800 21px/1.2 var(--f-display);letter-spacing:-.01em;text-wrap:balance}
+.book-body em{font:400 15px/1.3 var(--f-hand);color:var(--margin);font-style:normal}
+.book-desc{color:var(--ink-2)}
+.book-cta{font-weight:700;color:var(--pen);margin-top:4px}
+.book-next{border:2px dashed var(--rule);border-radius:8px;padding:14px 16px;font:400 15px/1.3 var(--f-hand);color:var(--ink-2)}
+
 /* ---------- phones & narrow windows ---------- */
 @media (max-width:819px){
   .sheet{top:auto;left:0;width:100%;height:86vh;height:86dvh;border-left:0;border-top:2px solid var(--ink);border-radius:18px 18px 0 0;transform:translateY(104%);box-shadow:0 -20px 50px rgba(14,18,36,.35)}
@@ -338,6 +387,22 @@ button.chip:hover{color:var(--highlight)}
   .game-foot p{display:none}
   .game-card{padding:16px}
   .arcade-list li{flex-direction:column;align-items:flex-start}
+  .store{gap:8px}
+  .store-title{padding:9px 12px 10px}
+  .store-title .eyebrow{display:none}
+  .store-title .sub{font-size:13px}
+  .store-tools .chip-lbl{display:none}
+  .store-leave{padding:9px 12px;font-size:13px}
+  .store-foot{flex-wrap:wrap;justify-content:center}
+  .store-foot .shelf-index{order:-1;width:100%}
+  .store-foot .btn{padding:9px 12px;font-size:13px}
+  .store.reading .store-foot,.store.reading .store-title{visibility:hidden}
+  .book-card h3{font-size:22px}
+  .book-card .tags{display:none}
+  .book-card p{margin-bottom:10px;font-size:15px}
+}
+@media (max-width:819px){
+  .book-card{left:max(12px, env(safe-area-inset-left,0px));right:max(12px, env(safe-area-inset-right,0px));width:auto;top:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);transform:none;max-height:54vh;padding:16px 18px;box-shadow:5px 5px 0 var(--brass)}
 }
 @media (max-height:620px) and (min-width:641px){
   .intro{transform:translateY(-50%) rotate(-1deg) scale(.86);transform-origin:left center}
@@ -359,7 +424,7 @@ button.chip:hover{color:var(--highlight)}
 
 @media (prefers-reduced-motion:reduce){
   .theme-fade{transition:none !important}
-  .sheet,.sheet.open,.prompt,.intro,.loader,.toast{transition:none}
+  .sheet,.sheet.open,.prompt,.intro,.loader,.toast,.book{transition:none}
   .chip.bump{animation:none}
   .bob{animation:none}
 }
@@ -396,7 +461,7 @@ button.chip:hover{color:var(--highlight)}
 
 </head>
 <body>
-<canvas id="scene" aria-label="3D street: Harsh walks home from the IKS Health office past five checkpoints" tabindex="-1"></canvas>
+<canvas id="scene" aria-label="3D street: Harsh walks home from the IKS Health office past six checkpoints" tabindex="-1"></canvas>
 <div id="track" aria-hidden="true"></div>
 
 <header class="hud topbar">
@@ -428,7 +493,7 @@ button.chip:hover{color:var(--highlight)}
   <p class="eyebrow">Software Engineer at IKS Health</p>
   <h1 id="introName">Harsh Nagrani</h1>
   <p class="lede">Software engineer building thoughtful web and AI systems, quietly, mostly.</p>
-  <p class="hand"><span class="only-light">Logged off at 5:30. Walk me home past five checkpoints, or take Arcade Lane for a detour.</span><span class="only-dark">Logged off at 9:00 after a late deploy. Walk me home past five checkpoints, or take Arcade Lane.</span></p>
+  <p class="hand"><span class="only-light">Logged off at 5:30. Walk me home past six checkpoints, or take Arcade Lane for a detour.</span><span class="only-dark">Logged off at 9:00 after a late deploy. Walk me home past six checkpoints, or take Arcade Lane.</span></p>
   <div class="intro-actions">
     <button class="btn btn-ink" id="startWalk" type="button">Start walking <span class="bob" aria-hidden="true">↓</span></button>
     <button class="btn" id="introText" type="button">Read as a page</button>
@@ -469,7 +534,7 @@ button.chip:hover{color:var(--highlight)}
 
 <aside class="sheet" id="sheet" role="dialog" aria-modal="false" aria-labelledby="sheetTag" aria-hidden="true">
   <div class="sheet-head">
-    <span class="sheet-tag" id="sheetTag">Checkpoint 01 / 05</span>
+    <span class="sheet-tag" id="sheetTag">Checkpoint 01 · Notice board</span>
     <button class="icon-btn" id="sheetClose" type="button" aria-label="Close and keep walking">
       <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
     </button>
@@ -478,7 +543,7 @@ button.chip:hover{color:var(--highlight)}
   <div class="sheet-body" id="sheetBody">
 
     <section class="page" id="page-about" data-cp="about" aria-labelledby="h-about">
-      <p class="kicker">Checkpoint 01 / 05 · The notice board</p>
+      <p class="kicker">Checkpoint 01 / 06 · The notice board</p>
       <h2 id="h-about">Hi, I'm Harsh.</h2>
       <p class="hand">pinned up just outside the office gate</p>
       <p class="lead">Software engineer building thoughtful web and AI systems, quietly, mostly. When I'm not at the keyboard, I'm probably on the tennis court.</p>
@@ -505,7 +570,7 @@ button.chip:hover{color:var(--highlight)}
     </section>
 
     <section class="page" id="page-work" data-cp="work" aria-labelledby="h-work">
-      <p class="kicker">Checkpoint 02 / 05 · The office block</p>
+      <p class="kicker">Checkpoint 02 / 06 · The office block</p>
       <h2 id="h-work">Where I've spent time.</h2>
       <p class="hand">the tech park on the walk home</p>
 
@@ -568,7 +633,7 @@ button.chip:hover{color:var(--highlight)}
     </section>
 
     <section class="page" id="page-projects" data-cp="projects" aria-labelledby="h-projects">
-      <p class="kicker">Checkpoint 03 / 05 · The workshop</p>
+      <p class="kicker">Checkpoint 03 / 06 · The workshop</p>
       <h2 id="h-projects">Things I've built.</h2>
       <p class="hand">eight projects, all eight shipped</p>
       <ol class="projects">
@@ -671,7 +736,7 @@ button.chip:hover{color:var(--highlight)}
     </section>
 
     <section class="page" id="page-skills" data-cp="skills" aria-labelledby="h-skills">
-      <p class="kicker">Checkpoint 04 / 05 · The library</p>
+      <p class="kicker">Checkpoint 04 / 06 · The library</p>
       <h2 id="h-skills">The stack, honestly.</h2>
       <p class="hand">quiet in here, unlike the arcade lane next door</p>
       <dl class="stack">
@@ -699,25 +764,42 @@ button.chip:hover{color:var(--highlight)}
         <li><a class="score" href="https://www.codechef.com/users/harshnagrani09" target="_blank" rel="noopener"><small>CodeChef</small><b>1577</b><span>2 star</span><em>max rating · view profile ↗</em></a></li>
       </ul>
 
-      <h3>Writing</h3>
-      <p>I write about AI, ML, generative AI and math.</p>
-      <ul class="posts">
-        <li><a href="https://www.harshnagrani.com/blogs/vector-embeddings-explained" target="_blank" rel="noopener">
-          <span class="when">May 25, 2026 · 12 min read</span>
-          <h4>Vector Embeddings Explained</h4>
-          <p>A visual, math-friendly guide to embeddings, cosine similarity, vector search, contrastive learning, RAG and AI memory.</p>
+      <p class="hand end">next stop: the bookstore →</p>
+    </section>
+
+    <section class="page" id="page-blogs" data-cp="blogs" aria-labelledby="h-blogs">
+      <p class="kicker">Checkpoint 05 / 06 · The bookstore</p>
+      <h2 id="h-blogs">Proofs &amp; Pages.</h2>
+      <p class="hand">my shelf at the bookstore: AI, ML, Gen AI and math</p>
+      <p>On the walk, step inside the bookstore and pull a book off the shelf. Each book is one of my articles.</p>
+      <ul class="bookshelf">
+        <li><a class="book" href="https://www.harshnagrani.com/blogs/vector-embeddings-explained" target="_blank" rel="noopener" style="--book:#1f3f6e;--book-accent:#ffd43c">
+          <span class="book-spine" aria-hidden="true"></span>
+          <span class="book-body">
+            <span class="when">May 25, 2026 · 12 min read</span>
+            <strong>Vector Embeddings Explained</strong>
+            <em>How AI understands semantic meaning</em>
+            <span class="book-desc">A visual, math-friendly guide to embeddings, cosine similarity, vector search, contrastive learning, RAG and AI memory.</span>
+            <span class="book-cta">Read the article ↗</span>
+          </span>
         </a></li>
-        <li><a href="https://www.harshnagrani.com/blogs/linear-transformations-ai" target="_blank" rel="noopener">
-          <span class="when">Jul 19, 2026 · 16 min read</span>
-          <h4>Linear Transformations: The Mathematics Powering Modern AI</h4>
-          <p>Proofs, matrices and eigenvectors, and why this exact math sits under neural networks, PCA, SVD and transformer attention.</p>
+        <li><a class="book" href="https://www.harshnagrani.com/blogs/linear-transformations-ai" target="_blank" rel="noopener" style="--book:#7a2431;--book-accent:#7fd8d0">
+          <span class="book-spine" aria-hidden="true"></span>
+          <span class="book-body">
+            <span class="when">Jul 19, 2026 · 16 min read</span>
+            <strong>Linear Transformations: The Mathematics Powering Modern AI</strong>
+            <em>The matrix math quietly running every neural network</em>
+            <span class="book-desc">A from-first-principles guide to linear transformations: proofs, matrices, eigenvectors, and why this exact math underlies neural networks, PCA, SVD and transformer attention.</span>
+            <span class="book-cta">Read the article ↗</span>
+          </span>
         </a></li>
+        <li class="book-next"><span>Next chapter: still being written.</span></li>
       </ul>
       <p class="hand end">last stop: home →</p>
     </section>
 
     <section class="page" id="page-contact" data-cp="contact" aria-labelledby="h-contact">
-      <p class="kicker">Checkpoint 05 / 05 · Home</p>
+      <p class="kicker">Checkpoint 06 / 06 · Home</p>
       <h2 id="h-contact">Home. Let's talk.</h2>
       <p class="hand"><span class="only-light">home by 7:00, just in time for dinner</span><span class="only-dark">home by 10:00. Dinner was kept warm.</span></p>
       <p class="lead">I'm open to full-time roles, freelance projects, and interesting conversations. The best way to reach me is a direct email.</p>
@@ -747,7 +829,35 @@ button.chip:hover{color:var(--highlight)}
   </div>
 </aside>
 
+<div class="store" id="store" role="dialog" aria-modal="true" aria-labelledby="storeTitle" hidden>
+  <header class="store-head">
+    <div class="store-title">
+      <p class="eyebrow">Checkpoint 05 / 06 · Blogs</p>
+      <h2 id="storeTitle">Proofs &amp; Pages</h2>
+      <p class="sub">Harsh's shelf: AI, ML, Gen AI and math</p>
+    </div>
+    <div class="store-tools">
+      <button class="chip" type="button" data-night aria-pressed="false" aria-label="Night mode" title="Night mode">
+        <svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path class="moon-fill" d="M13.6 10.2A6 6 0 0 1 5.8 2.4a6 6 0 1 0 7.8 7.8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span class="chip-lbl">Night</span>
+      </button>
+      <button class="chip" type="button" data-sound aria-pressed="true" aria-label="Sound on, click to mute">
+        <svg width="17" height="14" viewBox="0 0 17 14" aria-hidden="true"><path d="M1 5h3l4-3.5v11L4 9H1z" fill="currentColor"/><path class="wave" d="M10.5 4.2a4 4 0 0 1 0 5.6M12.8 2.2a7 7 0 0 1 0 9.6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/><path class="mute" d="M10.6 4.6l4.4 4.8M15 4.6l-4.4 4.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <button class="btn store-leave" id="storeLeave" type="button">Leave the store</button>
+    </div>
+  </header>
+  <article class="book-card" id="bookCard" aria-live="polite" hidden></article>
+  <footer class="store-foot">
+    <button class="btn" id="storePrev" type="button">← Skills</button>
+    <div class="shelf-index" id="shelfIndex" aria-label="Books on Harsh's shelf"><span class="shelf-lbl">On the shelf</span></div>
+    <button class="btn btn-ink" id="storeNext" type="button">Walk home →</button>
+  </footer>
+</div>
+<div class="store-tip" id="storeTip" hidden></div>
+<div class="fade" id="fade" aria-hidden="true"></div>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
 
 <div class="game" id="game" role="dialog" aria-modal="true" aria-labelledby="gameTitle" hidden>
   <div class="game-frame">
@@ -849,7 +959,9 @@ const sfx = {
   blip() { tone(880, 0.06, 'sine', 0.1, 1.5); },
   snip() { noise(0.09, 0.22, 3000); tone(990, 0.14, 'triangle', 0.1, 1.7); },
   honk() { tone(370, 0.16, 'square', 0.09); tone(370, 0.2, 'square', 0.09, 0, 0.21); },
-  pour() { noise(0.6, 0.06, 900); }
+  pour() { noise(0.6, 0.06, 900); },
+  bell() { tone(1568, 0.7, 'triangle', 0.1); tone(2093, 0.8, 'triangle', 0.07, 0, 0.09); tone(1568, 0.5, 'triangle', 0.05, 0, 0.3); },
+  page() { noise(0.16, 0.1, 2200); tone(420, 0.08, 'sine', 0.04, 1.6); }
 };
 function syncSoundButtons() {
   document.querySelectorAll('[data-sound]').forEach(b => {
@@ -1704,7 +1816,8 @@ const CPS = [
   { id: 'work', n: 2, label: 'Work', place: 'Office block', u: 0.315 },
   { id: 'projects', n: 3, label: 'Projects', place: 'Workshop', u: 0.53 },
   { id: 'skills', n: 4, label: 'Skills', place: 'Library', u: 0.745 },
-  { id: 'contact', n: 5, label: 'Contact', place: 'Home', u: U1 }
+  { id: 'blogs', n: 5, label: 'Blogs', place: 'Bookstore', u: 0.872 },
+  { id: 'contact', n: 6, label: 'Contact', place: 'Home', u: U1 }
 ].map(c => ({ ...c, kind: 'cp', path: MAIN, visited: false }));
 const JUNCTION = { id: 'arcade', kind: 'junction', label: 'Arcade', place: 'Arcade Lane', path: MAIN, u: A_U - 6 / L };
 const GAMES3 = [
@@ -2172,7 +2285,108 @@ const libWinMats = [];
   LM.skills = { look: V(s.x, 4.5, s.z) };
 }
 
-/* --- checkpoint 5: home --- */
+/* --- checkpoint 5: Proofs & Pages, the bookstore --- */
+const SHOP = {};
+let shopWinMat;
+{
+  const cp = byId.blogs;
+  const s = siteBeside(cp.u, 1, 6.6, 4.9, 2.2, 7.2);
+  const g = groupAt(s);
+  const green = '#2f5d50', cream = '#efe4cc', wood = '#5b3a26';
+  box(13.2, 0.25, 9.8, '#cbbfa8', 0, 0.12, 0, g);
+  box(12, 7.4, 8.4, cream, 0, 3.95, -0.6, g);
+  box(12.4, 3.5, 0.3, green, 0, 1.95, 3.75, g);
+  box(12.6, 0.3, 0.6, '#264c42', 0, 3.75, 3.85, g);
+  // display windows: a painted view of the shelves inside, lit after dark
+  const [wc, wg] = makeCanvas(512, 256);
+  wg.fillStyle = '#4a2f20'; wg.fillRect(0, 0, 512, 256);
+  for (let r = 0; r < 3; r++) {
+    wg.fillStyle = '#6b4329'; wg.fillRect(0, 78 + r * 82, 512, 8);
+    let x = 6;
+    while (x < 500) { const w = 8 + rand() * 12, h = 40 + rand() * 30; wg.fillStyle = pick(['#7a2e2e', '#2f4f6f', '#3d6b4f', '#c9a227', '#6b4a7a', '#b5562f', '#d9cbb0', '#9c3d54']); wg.fillRect(x, 78 + r * 82 - h, w, h); x += w + (rand() < 0.1 ? 14 : 1.5); }
+  }
+  const wl = wg.createRadialGradient(256, 40, 10, 256, 120, 300); wl.addColorStop(0, 'rgba(255,214,150,.45)'); wl.addColorStop(1, 'rgba(255,214,150,0)');
+  wg.fillStyle = wl; wg.fillRect(0, 0, 512, 256);
+  shopWinMat = new THREE.MeshBasicMaterial({ map: tex(wc), color: '#b9ae9c' });
+  for (const sd of [-1, 1]) {
+    const w = new THREE.Mesh(new THREE.PlaneGeometry(3.7, 2.1), shopWinMat); w.position.set(sd * 3.6, 1.75, 3.91); g.add(w);
+    box(3.9, 0.12, 0.2, cream, sd * 3.6, 0.66, 3.98, g);
+    box(0.1, 2.2, 0.12, green, sd * 3.6, 1.75, 3.98, g);
+    // stacks of books in the window
+    for (let k = 0; k < 3; k++) { const st = box(0.6 + rand() * 0.3, 0.12, 0.4, pick(['#7a2e2e', '#2f4f6f', '#c9a227', '#3d6b4f']), sd * 3.6 - 1 + k * 1, 0.78, 3.7, g); st.rotation.y = rr(-0.3, 0.3); }
+  }
+  // the doorway, with the lit shop behind the doors
+  const inside = new THREE.Mesh(new THREE.PlaneGeometry(1.9, 2.4), shopWinMat); inside.position.set(0, 1.45, 3.91); g.add(inside);
+  for (const x of [-1.02, 1.02]) box(0.14, 2.6, 0.2, wood, x, 1.5, 3.98, g);
+  box(2.2, 0.16, 0.2, wood, 0, 2.74, 3.98, g);
+  const leafMat = M(green), paneMat = new THREE.MeshBasicMaterial({ color: '#cbbd9f' });
+  SHOP.doors = [-1, 1].map(sd => {
+    const pv = new THREE.Group(); pv.position.set(sd * 0.95, 0.25, 4.02); g.add(pv);
+    const leaf = new THREE.Mesh(new THREE.BoxGeometry(0.93, 2.4, 0.06), leafMat); leaf.position.set(-sd * 0.465, 1.2, 0); leaf.castShadow = true; pv.add(leaf);
+    const pane = new THREE.Mesh(new THREE.PlaneGeometry(0.6, 1.3), paneMat); pane.position.set(-sd * 0.465, 1.5, 0.035); pv.add(pane);
+    const knob = new THREE.Mesh(new THREE.SphereGeometry(0.04, 8, 6), M('#d4a64a')); knob.position.set(-sd * 0.85, 1.15, 0.06); pv.add(knob);
+    pv.userData.sd = sd;
+    return pv;
+  });
+  SHOP.paneMat = paneMat;
+  // awning
+  const [ac, ag] = makeCanvas(256, 32);
+  for (let i = 0; i < 16; i++) { ag.fillStyle = i % 2 ? '#efe4cc' : '#2f5d50'; ag.fillRect(i * 16, 0, 16, 32); }
+  const aw = new THREE.Mesh(new THREE.PlaneGeometry(12.2, 1.8), new THREE.MeshLambertMaterial({ map: tex(ac), side: THREE.DoubleSide }));
+  aw.position.set(0, 3.45, 4.55); aw.rotation.x = -1.0; g.add(aw);
+  // name board
+  box(8.6, 1.25, 0.2, green, 0, 4.75, 3.72, g);
+  const nb = sign('PROOFS & PAGES', { w: 1024, h: 150, width: 8.2, height: 1.05, bg: '#2f5d50', fg: '#f3e6c8', spacing: '10px', glow: 0.5, font: '800 104px "Bricolage Grotesque", Arial, sans-serif' });
+  nb.position.set(0, 4.75, 3.83); g.add(nb);
+  const sub = sign('BOOKS · BLOGS · EST. 2026', { w: 1024, h: 80, width: 4.6, height: 0.36, bg: '#efe4cc', fg: '#2f5d50', spacing: '8px', glow: 0.25, font: '500 54px "IBM Plex Mono", monospace' });
+  sub.position.set(0, 5.62, 3.62); g.add(sub);
+  // upper floor windows with flower boxes
+  for (const x of [-3.6, 0, 3.6]) {
+    box(1.7, 1.9, 0.12, cream, x, 6.15, 3.66, g);
+    const w = new THREE.Mesh(new THREE.PlaneGeometry(1.4, 1.6), winLitMat); w.position.set(x, 6.15, 3.73); g.add(w);
+    box(1.6, 0.3, 0.35, wood, x, 5.08 + 0.05, 3.85, g);
+    for (let k = 0; k < 4; k++) mesh(new THREE.IcosahedronGeometry(0.17, 0), M(pick(['#e2367a', '#f08a24', '#f6c431', '#4f8a3f'])), x - 0.6 + k * 0.4, 5.38, 3.88, g);
+  }
+  box(12.6, 0.55, 9, green, 0, 7.85, -0.6, g);
+  // blade sign hanging off the front
+  {
+    const [bc, bg] = makeCanvas(256, 256);
+    bg.fillStyle = '#2f5d50'; bg.fillRect(0, 0, 256, 256);
+    bg.strokeStyle = '#f3e6c8'; bg.lineWidth = 10; bg.strokeRect(14, 14, 228, 228);
+    bg.fillStyle = '#f3e6c8';
+    bg.beginPath(); bg.moveTo(128, 92); bg.quadraticCurveTo(84, 70, 52, 84); bg.lineTo(52, 160); bg.quadraticCurveTo(84, 148, 128, 170); bg.quadraticCurveTo(172, 148, 204, 160); bg.lineTo(204, 84); bg.quadraticCurveTo(172, 70, 128, 92); bg.fill();
+    bg.strokeStyle = '#2f5d50'; bg.lineWidth = 5; bg.beginPath(); bg.moveTo(128, 94); bg.lineTo(128, 168); bg.stroke();
+    bg.font = '800 34px "Bricolage Grotesque", Arial, sans-serif'; bg.textAlign = 'center'; bg.fillText('BOOKS', 128, 214);
+    const bt = tex(bc);
+    const blade = new THREE.Mesh(new THREE.PlaneGeometry(1.3, 1.3), new THREE.MeshLambertMaterial({ map: bt, emissive: 0xffffff, emissiveMap: bt, emissiveIntensity: 0.35, side: THREE.DoubleSide }));
+    blade.position.set(5.6, 5.2, 4.6); blade.rotation.y = Math.PI / 2; g.add(blade);
+    box(0.08, 0.08, 1.6, '#1b2236', 5.6, 5.95, 4.3, g);
+  }
+  // chalkboard on the pavement
+  {
+    const [cc, cg] = makeCanvas(256, 320);
+    cg.fillStyle = '#26302c'; cg.fillRect(0, 0, 256, 320);
+    cg.strokeStyle = '#8a5a3b'; cg.lineWidth = 16; cg.strokeRect(0, 0, 256, 320);
+    cg.fillStyle = '#f3efe2'; cg.textAlign = 'center';
+    cg.font = '600 26px "Shantell Sans", cursive'; cg.fillText('New on', 128, 64); cg.fillText('the shelf', 128, 94);
+    cg.fillStyle = '#ffd43c'; cg.font = '600 30px "Shantell Sans", cursive'; cg.fillText('Linear', 128, 150); cg.fillText('Transforma-', 128, 184); cg.fillText('tions', 128, 218);
+    cg.fillStyle = '#f3efe2'; cg.font = '400 22px "Shantell Sans", cursive'; cg.fillText('by Harsh ☺', 128, 272);
+    const ct = tex(cc), cm = new THREE.MeshLambertMaterial({ map: ct, emissive: 0xffffff, emissiveMap: ct, emissiveIntensity: 0.15 });
+    const ab = new THREE.Group(); ab.position.set(-4.6, 0, 5.9); ab.rotation.y = 0.35; g.add(ab);
+    for (const sd of [-1, 1]) { const p = new THREE.Mesh(new THREE.PlaneGeometry(0.8, 1.0), cm); p.position.set(0, 0.55, sd * 0.16); p.rotation.x = sd * -0.3; p.rotation.y = sd > 0 ? 0 : Math.PI; ab.add(p); }
+  }
+  addHit({ stop: cp }, 12.6, 8, 9.6, 0, 4, -0.2, g);
+  scene.add(g); shadowAll(g);
+  g.updateMatrixWorld();
+  const normal = V(Math.sin(s.yaw), 0, Math.cos(s.yaw));
+  SHOP.door = V(0, 1.45, 4).applyMatrix4(g.matrixWorld);
+  SHOP.doorPos = SHOP.door.clone().addScaledVector(normal, 3.1); SHOP.doorPos.y = 1.85;
+  SHOP.doorLook = SHOP.door.clone().addScaledVector(normal, -2); SHOP.doorLook.y = 1.5;
+  foot.push({ x: s.x, z: s.z, r: 9.5 });
+  LM.blogs = { look: V(s.x, 3.4, s.z) };
+}
+
+/* --- checkpoint 6: home --- */
 const homeWinMat = new THREE.MeshBasicMaterial({ color: '#3d4c66' });
 let porchLight; const stringBulbs = [], diyaFlames = [];
 {
@@ -2511,7 +2725,7 @@ STOPS.forEach(st => {
     st.camLook = LM.contact.look.clone();
   } else if (st.kind === 'cp') {
     const f = frameAt(st.u);
-    const fr = { about: [5, 11, 4.2], work: [9, 24, 8], projects: [6, 15, 5.5], skills: [7, 19, 6.5] }[st.id];
+    const fr = { about: [5, 11, 4.2], work: [9, 24, 8], projects: [6, 15, 5.5], skills: [7, 19, 6.5], blogs: [5, 13, 4.6] }[st.id];
     st.camPos = f.p.clone().addScaledVector(f.l, -fr[0]).addScaledVector(f.t, -fr[1]).add(V(0, fr[2], 0));
     st.camLook = LM[st.id].look.clone();
   } else if (st.kind === 'game') {
@@ -2820,13 +3034,14 @@ let curS = 0, targetS = 0, prevS = 0, dayP = 0;
 let sheetOpen = false, activeCp = null, focusT = 0, focusStop = null, gameOpen = false;
 let autoWalk = null, pending = null, lastFocus = null;
 let hovered = null, pointer = new THREE.Vector2(), pointerDirty = false;
+const pointerPx = { x: 0, y: 0 };
 const stuPos = V(), prevPos = V(), camPos = V(), camLook = V(), tPos = V(), tLook = V(), tmp = V(), tmp2 = V();
 let yaw = 0, facingBack = false, phase = 0, moveBlend = 0, runBlend = 0, firstFrame = true;
 const F = { p: V(), t: V(), l: V() };
 let curLoc = { P: MAIN, u: 0 };
 
 buildItin('main'); applyTrack(); refreshStations();
-function readScroll() { if (html.classList.contains('static') || sheetOpen || gameOpen) return; targetS = clamp(scrollY / pxPerM, 0, TOTAL); }
+function readScroll() { if (html.classList.contains('static') || sheetOpen || gameOpen || storeActive || storeBusy) return; targetS = clamp(scrollY / pxPerM, 0, TOTAL); }
 addEventListener('scroll', readScroll, { passive: true });
 
 /* ============================================================
@@ -2842,7 +3057,7 @@ function toast(msg) { toastEl.textContent = msg; toastEl.classList.add('show'); 
 function openSheet(cp) {
   activeCp = cp; focusStop = cp; sheetOpen = true; pending = null;
   pages.forEach(p => p.classList.toggle('is-active', p.dataset.cp === cp.id));
-  sheetTag.textContent = `Checkpoint ${pad(cp.n)} / 05 · ${cp.place}`;
+  sheetTag.textContent = `Checkpoint ${pad(cp.n)} / 06 · ${cp.place}`;
   const prev = CPS[cp.n - 2], next = CPS[cp.n];
   prevBtn.textContent = prev ? `← ${prev.label}` : '← Office';
   nextBtn.textContent = next ? `Walk to ${next.label} →` : 'Back to the office ↺';
@@ -2875,7 +3090,7 @@ addEventListener('arcade:close', () => {
   gameOpen = false; focusStop = null; clock.getDelta();
   if (!html.classList.contains('static')) renderer.setAnimationLoop(tick);
 });
-function openStop(st) { st.kind === 'cp' ? openSheet(st) : st.kind === 'game' ? openGame(st) : null; }
+function openStop(st) { st.id === 'blogs' ? enterStore() : st.kind === 'cp' ? openSheet(st) : st.kind === 'game' ? openGame(st) : null; }
 
 function walkToS(s, open, then) {
   closeSheet(false);
@@ -2915,6 +3130,7 @@ $('#brand').addEventListener('click', e => { e.preventDefault(); if (html.classL
 
 addEventListener('keydown', e => {
   if (html.classList.contains('static') || gameOpen) return;
+  if (storeActive || storeBusy) { storeKey(e); return; }
   if (e.key === 'Escape' && sheetOpen) { closeSheet(); return; }
   if (sheetOpen) return;
   const tag = (e.target && e.target.tagName) || '';
@@ -2940,6 +3156,7 @@ let savedS = 0;
 function setStatic(on) {
   if (on) {
     savedS = targetS; closeSheet(false); autoWalk = null; pending = null;
+    if (storeActive || storeBusy) exitStoreNow();
     window.__setStatic(true);
     renderer.setAnimationLoop(null);
     scrollTo(0, 0);
@@ -2956,8 +3173,8 @@ $('#backToWalk').addEventListener('click', () => setStatic(false));
 
 /* pointer picking */
 const raycaster = new THREE.Raycaster();
-canvas.addEventListener('pointermove', e => { pointer.set(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1); pointerDirty = true; });
-canvas.addEventListener('pointerleave', () => { hovered = null; canvas.style.cursor = ''; });
+canvas.addEventListener('pointermove', e => { pointer.set(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1); pointerDirty = true; pointerPx.x = e.clientX; pointerPx.y = e.clientY; });
+canvas.addEventListener('pointerleave', () => { hovered = null; canvas.style.cursor = ''; if (storeActive) storeHover(null); });
 function pick3D(x, y) {
   pointer.set(x / innerWidth * 2 - 1, -(y / innerHeight) * 2 + 1);
   raycaster.setFromCamera(pointer, camera);
@@ -2968,6 +3185,8 @@ let downAt = null;
 canvas.addEventListener('pointerdown', e => { downAt = [e.clientX, e.clientY]; });
 canvas.addEventListener('click', e => {
   if (downAt && Math.hypot(e.clientX - downAt[0], e.clientY - downAt[1]) > 8) return;
+  if (storeActive) { storeClick(e.clientX, e.clientY); return; }
+  if (storeBusy) return;
   const d = pick3D(e.clientX, e.clientY);
   if (!d) return;
   if (d.stop) activate(d.stop);
@@ -2984,11 +3203,11 @@ let nearStop = null, promptKey = '', lastClock = '', lastSub = '';
 function updatePrompt(force) {
   let key, text, btn = null, walking = false;
   const narrow = coarse || innerWidth < 640;
-  if (sheetOpen || gameOpen || curS < 6 || autoWalk) key = 'hidden';
+  if (sheetOpen || gameOpen || storeActive || storeBusy || curS < 6 || autoWalk) key = 'hidden';
   else if (nearStop) {
     const st = nearStop;
     key = 'near-' + st.id;
-    if (st.kind === 'cp') { text = `${st.place}<small>${narrow ? `checkpoint ${st.n} of 5` : `checkpoint ${st.n} of 5 · click the marker or press Enter`}</small>`; btn = `Open ${st.label}`; }
+    if (st.kind === 'cp') { text = `${st.id === 'blogs' ? 'Proofs &amp; Pages' : st.place}<small>${narrow ? `checkpoint ${st.n} of 6` : `checkpoint ${st.n} of 6 · click the marker or press Enter`}</small>`; btn = st.id === 'blogs' ? 'Enter the bookstore' : `Open ${st.label}`; }
     else if (st.kind === 'game') { text = `${st.place}<small>Arcade Lane · game ${st.k} of 3</small>`; btn = st.play; }
     else { text = `Arcade Lane<small>three games down this turn</small>`; btn = 'Take the lane'; }
   } else {
@@ -3053,6 +3272,490 @@ function updatePins() {
 /* ============================================================
    per-frame
    ============================================================ */
+/* ============================================================
+   Proofs & Pages: the bookstore you step into at checkpoint 5.
+   Each blog is a book on the featured shelf; pull one out to read about it.
+   ============================================================ */
+const BLOGS = [
+  {
+    title: 'Vector Embeddings Explained', short: 'Vector Embeddings Explained', dek: 'How AI understands semantic meaning',
+    date: 'May 25, 2026', read: '12 min read',
+    desc: 'A visual, math-friendly guide to embeddings, cosine similarity, vector search, contrastive learning, RAG and AI memory.',
+    tags: ['Deep dive', 'Machine learning', 'AI systems'], url: 'https://www.harshnagrani.com/blogs/vector-embeddings-explained',
+    color: '#1f3f6e', ink: '#f3efe2', accent: '#ffd43c', art: 'vectors'
+  },
+  {
+    title: 'Linear Transformations: The Mathematics Powering Modern AI', short: 'Linear Transformations', dek: 'The matrix math quietly running every neural network',
+    date: 'Jul 19, 2026', read: '16 min read',
+    desc: 'A from-first-principles guide to linear transformations: proofs, matrices, eigenvectors, and why this exact math underlies neural networks, PCA, SVD and transformer attention.',
+    tags: ['Deep dive', 'Linear algebra', 'Machine learning'], url: 'https://www.harshnagrani.com/blogs/linear-transformations-ai',
+    color: '#7a2431', ink: '#f6ecd9', accent: '#7fd8d0', art: 'grid'
+  }
+];
+
+const storeEl = $('#store'), fadeEl = $('#fade'), cardEl = $('#bookCard'), tipEl = $('#storeTip'), indexEl = $('#shelfIndex');
+let storeActive = false, storeBusy = false, storeTarget = 0, storeK = 0;
+const storeScene = new THREE.Scene();
+const storeCam = new THREE.PerspectiveCamera(55, innerWidth / innerHeight, 0.05, 120);
+const room = new THREE.Group(); storeScene.add(room);
+
+/* ---------- textures ---------- */
+function plankTex() {
+  const [c, g] = makeCanvas(512, 512);
+  g.fillStyle = '#7d5034'; g.fillRect(0, 0, 512, 512);
+  for (let r = 0; r < 8; r++) {
+    let x = -rand() * 200;
+    while (x < 512) {
+      const w = 160 + rand() * 200;
+      g.fillStyle = pick(['#8a5a3b', '#7d5034', '#94623f', '#865637', '#9b6a46']);
+      g.fillRect(x, r * 64, w - 2, 62);
+      g.strokeStyle = 'rgba(60,35,20,.18)'; g.lineWidth = 1.2;
+      for (let k = 0; k < 4; k++) { const y = r * 64 + 8 + rand() * 46; g.beginPath(); g.moveTo(x, y); g.bezierCurveTo(x + w * 0.3, y + rr(-4, 4), x + w * 0.6, y + rr(-4, 4), x + w, y + rr(-3, 3)); g.stroke(); }
+      x += w;
+    }
+    g.fillStyle = 'rgba(40,22,12,.55)'; g.fillRect(0, r * 64 + 62, 512, 2);
+  }
+  const t = tex(c, true); t.repeat.set(3, 3); return t;
+}
+function rugTex() {
+  const [c, g] = makeCanvas(512, 340);
+  g.fillStyle = '#7a2431'; g.fillRect(0, 0, 512, 340);
+  g.strokeStyle = '#e7b765'; g.lineWidth = 10; g.strokeRect(22, 22, 468, 296);
+  g.strokeStyle = '#2f5d50'; g.lineWidth = 6; g.strokeRect(44, 44, 424, 252);
+  g.fillStyle = '#e7b765';
+  for (let i = 0; i < 5; i++) { g.save(); g.translate(256, 170); g.rotate(i * Math.PI / 5); g.fillRect(-80, -4, 160, 8); g.restore(); }
+  g.fillStyle = '#2f5d50'; g.beginPath(); g.arc(256, 170, 34, 0, Math.PI * 2); g.fill();
+  return tex(c);
+}
+function wrapText(g, text, x, y, maxW, lh, maxLines = 4) {
+  const words = text.split(' '); let line = '', lines = [];
+  for (const w of words) { const t = line ? line + ' ' + w : w; if (g.measureText(t).width > maxW && line) { lines.push(line); line = w; } else line = t; }
+  if (line) lines.push(line);
+  lines.slice(0, maxLines).forEach((l, i) => g.fillText(l, x, y + i * lh));
+  return Math.min(lines.length, maxLines);
+}
+function coverTex(b) {
+  const W = 512, H = 750, [c, g] = makeCanvas(W, H);
+  g.fillStyle = b.color; g.fillRect(0, 0, W, H);
+  g.fillStyle = 'rgba(0,0,0,.22)'; g.fillRect(0, 0, 26, H);
+  g.fillStyle = 'rgba(255,255,255,.06)'; g.fillRect(26, 0, 4, H);
+  // cover art drawn from the article's own idea
+  g.save(); g.translate(270, 470);
+  if (b.art === 'vectors') {
+    g.strokeStyle = 'rgba(255,255,255,.12)'; g.lineWidth = 1;
+    for (let i = -6; i <= 6; i++) { g.beginPath(); g.moveTo(i * 30, -180); g.lineTo(i * 30, 180); g.stroke(); g.beginPath(); g.moveTo(-200, i * 30); g.lineTo(200, i * 30); g.stroke(); }
+    const clusters = [[b.accent, -120, -110], ['#ff7aa8', 110, -90], ['#7fd8d0', 30, 120]];
+    const ox = -170, oy = 150;
+    clusters.forEach(([col, cx, cy]) => {
+      for (let k = 0; k < 5; k++) {
+        const x = cx + rr(-34, 34), y = cy + rr(-30, 30);
+        g.strokeStyle = col; g.globalAlpha = 0.55; g.lineWidth = 2; g.beginPath(); g.moveTo(ox, oy); g.lineTo(x, y); g.stroke();
+        g.globalAlpha = 1; g.fillStyle = col; g.beginPath(); g.arc(x, y, 6, 0, Math.PI * 2); g.fill();
+      }
+    });
+    g.fillStyle = b.ink; g.beginPath(); g.arc(ox, oy, 7, 0, Math.PI * 2); g.fill();
+    g.font = '500 22px "IBM Plex Mono", monospace'; g.fillStyle = 'rgba(255,255,255,.7)'; g.fillText('cos θ', 60, 30);
+  } else {
+    const m = (x, y) => [x + 0.55 * y, 0.25 * x + y];
+    g.strokeStyle = 'rgba(255,255,255,.1)'; g.lineWidth = 1;
+    for (let i = -6; i <= 6; i++) { g.beginPath(); g.moveTo(i * 30, -180); g.lineTo(i * 30, 180); g.stroke(); g.beginPath(); g.moveTo(-200, i * 30); g.lineTo(200, i * 30); g.stroke(); }
+    g.strokeStyle = 'rgba(246,236,217,.55)'; g.lineWidth = 2;
+    for (let i = -5; i <= 5; i++) {
+      g.beginPath(); let p = m(i * 30, -150); g.moveTo(p[0], p[1]); p = m(i * 30, 150); g.lineTo(p[0], p[1]); g.stroke();
+      g.beginPath(); p = m(-150, i * 30); g.moveTo(p[0], p[1]); p = m(150, i * 30); g.lineTo(p[0], p[1]); g.stroke();
+    }
+    const arrow = (x, y, col) => { const [ex, ey] = m(x, y); g.strokeStyle = col; g.fillStyle = col; g.lineWidth = 6; g.beginPath(); g.moveTo(0, 0); g.lineTo(ex, ey); g.stroke(); const a = Math.atan2(ey, ex); g.beginPath(); g.moveTo(ex, ey); g.lineTo(ex - 16 * Math.cos(a - 0.4), ey - 16 * Math.sin(a - 0.4)); g.lineTo(ex - 16 * Math.cos(a + 0.4), ey - 16 * Math.sin(a + 0.4)); g.fill(); };
+    arrow(90, 0, '#ffd43c'); arrow(0, -90, b.accent);
+    g.font = '500 24px "IBM Plex Mono", monospace'; g.fillStyle = 'rgba(255,255,255,.75)'; g.fillText('Av = λv', 40, 140);
+  }
+  g.restore();
+  g.fillStyle = b.ink; g.textAlign = 'left'; g.textBaseline = 'top';
+  g.font = '500 20px "IBM Plex Mono", monospace'; g.globalAlpha = 0.8; g.fillText(b.date.toUpperCase() + ' · ' + b.read.toUpperCase(), 58, 52); g.globalAlpha = 1;
+  // shrink the title until its longest word fits the cover
+  let fs = 62;
+  const longest = b.short.split(' ').reduce((m, w) => w.length > m.length ? w : m, '');
+  do { g.font = `800 ${fs}px "Bricolage Grotesque", Arial, sans-serif`; fs -= 2; } while (g.measureText(longest).width > 410 && fs > 30);
+  const lh = (fs + 2) * 1.04;
+  const n = wrapText(g, b.short, 58, 92, 410, lh, 3);
+  g.font = '400 26px "Shantell Sans", cursive'; g.fillStyle = b.accent;
+  wrapText(g, b.dek, 58, 104 + n * lh, 400, 32, 2);
+  g.fillStyle = b.ink; g.font = '500 22px "IBM Plex Mono", monospace'; g.textBaseline = 'alphabetic';
+  if ('letterSpacing' in g) g.letterSpacing = '6px';
+  g.fillText('HARSH NAGRANI', 58, H - 48);
+  return tex(c);
+}
+function spineTex(b, ghost) {
+  const [c, g] = makeCanvas(96, 512);
+  g.fillStyle = ghost ? '#efe6d2' : b.color; g.fillRect(0, 0, 96, 512);
+  if (ghost) { g.setLineDash([10, 8]); g.strokeStyle = '#8a7a62'; g.lineWidth = 3; g.strokeRect(6, 6, 84, 500); }
+  else { g.fillStyle = b.accent; g.fillRect(0, 26, 96, 6); g.fillRect(0, 480, 96, 6); }
+  g.save(); g.translate(48, 256); g.rotate(Math.PI / 2);
+  g.fillStyle = ghost ? '#6b5d48' : b.ink; g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.font = ghost ? '400 34px "Shantell Sans", cursive' : '800 36px "Bricolage Grotesque", Arial, sans-serif';
+  fitFont(g, ghost ? 'Next chapter…' : b.short, g.font, 400);
+  g.fillText(ghost ? 'Next chapter…' : b.short, 0, 0);
+  g.restore();
+  return tex(c);
+}
+function pagesTex() {
+  const [c, g] = makeCanvas(64, 64);
+  g.fillStyle = '#efe6d2'; g.fillRect(0, 0, 64, 64);
+  g.strokeStyle = 'rgba(120,100,70,.35)'; g.lineWidth = 1;
+  for (let y = 2; y < 64; y += 3) { g.beginPath(); g.moveTo(0, y); g.lineTo(64, y); g.stroke(); }
+  return tex(c);
+}
+const PAGES = new THREE.MeshLambertMaterial({ map: pagesTex() });
+
+/* ---------- the room ---------- */
+const floorMat = new THREE.MeshLambertMaterial({ map: plankTex() });
+{
+  const fl = new THREE.Mesh(new THREE.PlaneGeometry(16, 14), floorMat); fl.rotation.x = -Math.PI / 2; fl.position.set(0, 0, 0); fl.receiveShadow = true; room.add(fl);
+  const rug = new THREE.Mesh(new THREE.PlaneGeometry(5.2, 3.4), new THREE.MeshLambertMaterial({ map: rugTex() })); rug.rotation.x = -Math.PI / 2; rug.position.set(-0.6, 0.012, -1.2); rug.receiveShadow = true; room.add(rug);
+  const wall = M('#eadcc2'), wains = M('#2f5d50');
+  const back = new THREE.Mesh(new THREE.PlaneGeometry(14, 5.8), wall); back.position.set(0, 2.9, -5.25); back.receiveShadow = true; room.add(back);
+  for (const sd of [-1, 1]) {
+    const w = new THREE.Mesh(new THREE.PlaneGeometry(14, 5.8), wall); w.position.set(sd * 7, 2.9, 1.8); w.rotation.y = -sd * Math.PI / 2; w.receiveShadow = true; room.add(w);
+    box(0.08, 1.1, 14, '#2f5d50', sd * 6.96, 0.55, 1.8, room);
+    box(0.12, 0.08, 14, '#e7b765', sd * 6.94, 1.12, 1.8, room);
+  }
+  box(14, 1.1, 0.08, '#2f5d50', 0, 0.55, -5.2, room);
+  const ceil = new THREE.Mesh(new THREE.PlaneGeometry(14, 14), M('#d8c7a8')); ceil.rotation.x = Math.PI / 2; ceil.position.set(0, 5.8, 1.8); room.add(ceil);
+  for (const z of [-3.6, -0.8, 2]) box(14, 0.3, 0.35, '#6b4a33', 0, 5.62, z, room);
+}
+
+/* ---------- shelves full of books ---------- */
+const BOOK_COLS = ['#7a2e2e', '#2f4f6f', '#3d6b4f', '#c9a227', '#6b4a7a', '#b5562f', '#24414f', '#8a8a6a', '#d9cbb0', '#5b6e8c', '#9c3d54', '#33302b', '#a7774b', '#476b74'];
+const bookGeo = new THREE.BoxGeometry(1, 1, 1).translate(0, 0.5, 0);
+const bookMat = new THREE.MeshLambertMaterial({ color: '#ffffff' });
+function fillBooks(parent, x0, x1, y, zFront, maxH, skip) {
+  const list = [];
+  let x = x0 + 0.02;
+  while (x < x1 - 0.06) {
+    if (skip && x > skip[0] - 0.05 && x < skip[1]) { x = skip[1]; continue; }
+    if (rand() < 0.05) { x += rr(0.12, 0.3); continue; }
+    const w = rr(0.06, 0.14), h = Math.min(maxH, rr(0.46, 0.8)), d = rr(0.34, 0.5);
+    if (x + w > x1 - 0.02 || (skip && x + w > skip[0] && x < skip[1])) { x += 0.02; continue; }
+    const lean = rand() < 0.04 ? rr(0.12, 0.3) : 0;
+    list.push({ x: x + w / 2, y, z: zFront - d / 2 - 0.02, sx: w, sy: h, sz: d, rz: -lean, c: pick(BOOK_COLS) });
+    x += w + (lean ? 0.12 : rr(0.002, 0.012));
+  }
+  return list;
+}
+function shelfUnit(w, h, boards, depth, featured, nBays) {
+  const g = new THREE.Group(), wood = '#5b3a26', wood2 = '#6e4a32';
+  box(w + 0.1, h, 0.06, '#4a2f20', 0, h / 2, -depth + 0.03, g);
+  boards.forEach(y => box(w, 0.06, depth, wood2, 0, y, -depth / 2, g));
+  const bays = nBays || Math.round(w / 1.6), bw = w / bays;
+  for (let i = 0; i <= bays; i++) box(0.09, h, depth, wood, -w / 2 + i * bw, h / 2, -depth / 2, g);
+  box(w + 0.3, 0.24, depth + 0.16, wood, 0, h + 0.1, -depth / 2 + 0.05, g);
+  box(w + 0.1, 0.3, depth + 0.02, wood, 0, 0.15, -depth / 2, g);
+  const books = [];
+  boards.forEach((y, bi) => {
+    const next = boards[bi + 1] ?? h, maxH = next - y - 0.08;
+    if (maxH < 0.4) return;
+    for (let i = 0; i < bays; i++) {
+      const xa = -w / 2 + i * bw + 0.05, xb = xa + bw - 0.1;
+      const skip = featured && featured.board === bi && xb > featured.x0 && xa < featured.x1 ? [featured.x0, featured.x1] : null;
+      books.push(...fillBooks(g, xa, xb, y + 0.03, -0.02, maxH, skip));
+    }
+  });
+  const im = new THREE.InstancedMesh(bookGeo, bookMat, books.length);
+  const d = new THREE.Object3D(), col = new THREE.Color();
+  books.forEach((b, i) => { d.position.set(b.x, b.y, b.z); d.rotation.set(0, 0, b.rz); d.scale.set(b.sx, b.sy, b.sz); d.updateMatrix(); im.setMatrixAt(i, d.matrix); im.setColorAt(i, col.set(b.c)); });
+  im.castShadow = true; im.receiveShadow = true; g.add(im);
+  g.traverse(o => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
+  return g;
+}
+const SHELF_Z = -4.55, BOARDS = [0.3, 1.2, 2.1, 3.0, 3.9];
+const FEAT = { board: 1, x0: -0.96, x1: 0.96 };
+{
+  const main = shelfUnit(9.6, 4.6, BOARDS, 0.62, FEAT, 5); main.position.set(0, 0, SHELF_Z); room.add(main);
+  for (const sd of [-1, 1]) {
+    const side = shelfUnit(6.4, 4.2, [0.3, 1.2, 2.1, 3.0], 0.5);
+    side.position.set(sd * 6.9, 0, sd < 0 ? -1.4 : -2.6); side.rotation.y = sd * -Math.PI / 2; room.add(side);
+    if (sd > 0) side.scale.x = 0.55;
+  }
+  // a sign board over the main shelf
+  const sb = sign('PROOFS & PAGES', { w: 1024, h: 150, width: 5.4, height: 0.7, bg: '#2f5d50', fg: '#f3e6c8', spacing: '10px', glow: 0.4, font: '800 104px "Bricolage Grotesque", Arial, sans-serif' });
+  sb.position.set(0, 5.1, SHELF_Z + 0.06); room.add(sb);
+  // rolling ladder
+  const lad = new THREE.Group(); lad.position.set(3.4, 0, SHELF_Z + 0.75); lad.rotation.x = -0.2; room.add(lad);
+  for (const x of [-0.28, 0.28]) box(0.07, 4.5, 0.07, '#8a5a3b', x, 2.25, 0, lad);
+  for (let i = 0; i < 10; i++) box(0.56, 0.05, 0.08, '#8a5a3b', 0, 0.35 + i * 0.42, 0, lad);
+  lad.traverse(o => { if (o.isMesh) o.castShadow = true; });
+}
+
+/* ---------- the featured shelf: Harsh's books ---------- */
+const featBay = new THREE.Group(); featBay.position.set(0, BOARDS[FEAT.board] + 0.03, SHELF_Z); room.add(featBay);
+{
+  // brass plate on the shelf lip
+  const plate = sign('WRITTEN BY HARSH', { w: 512, h: 64, width: 1.5, height: 0.15, bg: '#c9a04f', fg: '#2b1d10', spacing: '6px', glow: 0.25, font: '700 40px "IBM Plex Mono", monospace' });
+  plate.position.set(0, -0.08, 0.005); featBay.add(plate);
+  // a little backdrop so the bay reads as special
+  const bd = new THREE.Mesh(new THREE.PlaneGeometry(1.84, 0.84), M('#2f5d50')); bd.position.set(0, 0.43, -0.54); featBay.add(bd);
+  box(0.05, 0.32, 0.26, '#c9a04f', -0.9, 0.16, -0.3, featBay);
+  cyl(0.11, 0.08, 0.16, '#b5562f', 0.75, 0.08, -0.25, featBay, 10);
+  for (let k = 0; k < 5; k++) { const l = mesh(new THREE.ConeGeometry(0.05, 0.22, 5), M('#4f8a3f'), 0.75 + rr(-0.05, 0.05), 0.26, -0.25 + rr(-0.05, 0.05), featBay); l.rotation.z = rr(-0.5, 0.5); }
+}
+const BOOK = { T: 0.09, H: 0.8, D: 0.56 };
+const books3d = BLOGS.map((b, i) => {
+  const mats = [
+    new THREE.MeshLambertMaterial({ map: coverTex(b), emissive: '#ffffff', emissiveIntensity: 0 }),
+    M(b.color), PAGES, PAGES,
+    new THREE.MeshLambertMaterial({ map: spineTex(b) }), PAGES
+  ];
+  mats[0].emissiveMap = mats[0].map;
+  const m = new THREE.Mesh(new THREE.BoxGeometry(BOOK.T, BOOK.H, BOOK.D), mats);
+  m.castShadow = true; m.receiveShadow = true;
+  // face-out on a stand, leaning back a little: cover (+x) turned toward the room
+  const home = { pos: V(-0.55 + i * 0.6, BOOK.H / 2 + 0.01, -0.22), rot: new THREE.Euler(-0.12, -Math.PI / 2, 0, 'YXZ') };
+  const stand = box(0.5, 0.04, 0.14, '#c9a04f', home.pos.x, 0.02, -0.1, featBay);
+  m.position.copy(home.pos); m.rotation.copy(home.rot);
+  featBay.add(m);
+  m.userData = { book: i };
+  return { m, b, i, home, t: 0, hover: 0, sel: 0 };
+});
+// the ghost book: the next article, still being written
+const ghost = (() => {
+  const gm = new THREE.MeshLambertMaterial({ color: '#efe6d2', transparent: true, opacity: 0.55 });
+  const m = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.76, 0.5), [gm, gm, gm, gm, new THREE.MeshLambertMaterial({ map: spineTex(null, true), transparent: true, opacity: 0.85 }), gm]);
+  m.position.set(0.5, 0.39, -0.27); m.userData = { ghost: true }; featBay.add(m);
+  return m;
+})();
+
+/* ---------- reading corner, staff picks, the shop cat ---------- */
+let floorLampLight, cat;
+{
+  // staff picks table
+  const t = new THREE.Group(); t.position.set(-2.6, 0, -1.4); room.add(t);
+  box(1.8, 0.08, 1.0, '#6e4a32', 0, 0.76, 0, t);
+  for (const [x, z] of [[-0.8, -0.42], [0.8, -0.42], [-0.8, 0.42], [0.8, 0.42]]) box(0.08, 0.76, 0.08, '#5b3a26', x, 0.38, z, t);
+  let y = 0.8;
+  for (let k = 0; k < 4; k++) { const h = rr(0.05, 0.08); const bk = box(rr(0.5, 0.62), h, rr(0.36, 0.44), pick(BOOK_COLS), 0.45, y + h / 2, 0.05, t); bk.rotation.y = rr(-0.3, 0.3); y += h; }
+  const card = sign('Staff picks', { w: 256, h: 96, width: 0.42, height: 0.16, bg: '#f3efe2', fg: '#2b1d10', font: '600 52px "Shantell Sans", cursive', glow: 0.2, spacing: '0px' });
+  card.position.set(0.45, y + 0.12, 0.26); card.rotation.x = -0.3; t.add(card);
+  // Pages, the shop cat, asleep on the table
+  cat = new THREE.Group(); cat.position.set(-0.35, 0.8, 0.05); cat.rotation.y = 0.6; t.add(cat);
+  const fur = M('#e39a4f'), furD = M('#c97b34');
+  const body = new THREE.Mesh(new THREE.SphereGeometry(0.2, 12, 8), fur); body.scale.set(1.35, 0.62, 0.95); body.position.y = 0.12; cat.add(body);
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.11, 10, 8), fur); head.position.set(0.25, 0.1, 0.05); cat.add(head);
+  for (const z of [-0.05, 0.08]) { const ear = new THREE.Mesh(new THREE.ConeGeometry(0.035, 0.08, 4), furD); ear.position.set(0.27, 0.2, z); cat.add(ear); }
+  const tail = new THREE.Mesh(new THREE.TorusGeometry(0.16, 0.03, 6, 12, Math.PI * 1.2), furD); tail.rotation.x = Math.PI / 2; tail.position.set(-0.05, 0.06, 0.08); cat.add(tail);
+  cat.traverse(o => { if (o.isMesh) { o.castShadow = true; o.userData.cat = true; } });
+  t.traverse(o => { if (o.isMesh) o.castShadow = true; });
+  // armchair, window and floor lamp on the right
+  const ch = new THREE.Group(); ch.position.set(4.6, 0, -0.6); ch.rotation.y = -0.7; room.add(ch);
+  const red = '#8c2f39';
+  box(1.1, 0.45, 1.0, red, 0, 0.35, 0, ch); box(1.1, 0.9, 0.22, red, 0, 0.9, -0.42, ch);
+  for (const x of [-0.5, 0.5]) box(0.18, 0.62, 1.0, red, x, 0.5, 0, ch);
+  ch.traverse(o => { if (o.isMesh) o.castShadow = true; });
+  const lamp = new THREE.Group(); lamp.position.set(5.6, 0, -1.8); room.add(lamp);
+  cyl(0.03, 0.03, 1.7, '#2b2f38', 0, 0.85, 0, lamp, 6); cyl(0.2, 0.2, 0.04, '#2b2f38', 0, 0.02, 0, lamp, 12);
+  const shade = new THREE.Mesh(new THREE.ConeGeometry(0.28, 0.32, 16, 1, true), new THREE.MeshLambertMaterial({ color: '#efe0bd', emissive: '#ffcf8f', emissiveIntensity: 0.6, side: THREE.DoubleSide })); shade.position.y = 1.8; lamp.add(shade);
+  floorLampLight = new THREE.PointLight('#ffc983', 2, 7, 2); floorLampLight.position.set(5.6, 1.75, -1.8); room.add(floorLampLight);
+}
+const winMat = new THREE.MeshBasicMaterial({ color: '#cfe4ff' });
+{
+  const w = new THREE.Mesh(new THREE.PlaneGeometry(2.8, 2.3), winMat); w.position.set(6.95, 2.5, 1.6); w.rotation.y = -Math.PI / 2; room.add(w);
+  box(0.1, 0.12, 3.0, '#f3efe2', 6.92, 1.33, 1.6, room); box(0.1, 0.12, 3.0, '#f3efe2', 6.92, 3.67, 1.6, room);
+  box(0.1, 2.4, 0.1, '#f3efe2', 6.92, 2.5, 1.6, room);
+}
+
+/* ---------- light ---------- */
+const sHemi = new THREE.HemisphereLight('#fff1dc', '#4a3426', 1.0); storeScene.add(sHemi);
+const sWin = new THREE.DirectionalLight('#fff4e0', 1.5); sWin.position.set(9, 6, 2); sWin.target.position.set(0, 1, -3);
+sWin.castShadow = true; sWin.shadow.mapSize.set(1024, 1024); Object.assign(sWin.shadow.camera, { left: -9, right: 9, top: 7, bottom: -3, near: 1, far: 30 }); sWin.shadow.bias = -0.0006; sWin.shadow.normalBias = 0.03;
+storeScene.add(sWin, sWin.target);
+const pendants = [[-2.8, -2.2], [0, -1.2], [2.8, -2.2]].map(([x, z]) => {
+  cyl(0.012, 0.012, 1.3, '#2b2f38', x, 5.15, z, room, 4);
+  const sh = new THREE.Mesh(new THREE.ConeGeometry(0.34, 0.3, 16, 1, true), new THREE.MeshLambertMaterial({ color: '#2f5d50', side: THREE.DoubleSide })); sh.position.set(x, 4.42, z); room.add(sh);
+  const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.09, 10, 8), new THREE.MeshBasicMaterial({ color: '#ffe2b0' })); bulb.position.set(x, 4.3, z); room.add(bulb);
+  const pl = new THREE.PointLight('#ffcf8f', 4, 11, 2); pl.position.set(x, 4.1, z); room.add(pl);
+  return pl;
+});
+const featSpot = new THREE.SpotLight('#ffe2b0', 14, 9, 0.42, 0.55, 1.6);
+featSpot.position.set(0, 4.4, -1.4); featSpot.target.position.set(0, 1.55, SHELF_Z); storeScene.add(featSpot, featSpot.target);
+
+/* ---------- camera, entering, picking ---------- */
+const sBase = { pos: V(0, 1.62, 0.25), look: V(0, 1.6, SHELF_Z) };
+let enterT = 1, selected = -1, hoverBook = -1;
+const sTmp = V(), sTmp2 = V(), sFwd = V(), sRight = V();
+const sRay = new THREE.Raycaster(), sPtr = new THREE.Vector2(), sPick = [...books3d.map(b => b.m), ghost];
+cat.traverse(o => { if (o.isMesh) sPick.push(o); });
+function storePortrait() { return innerWidth / innerHeight < 0.85; }
+function resizeStore() {
+  storeCam.aspect = innerWidth / innerHeight;
+  storeCam.fov = storePortrait() ? 62 : 52;
+  storeCam.updateProjectionMatrix();
+}
+resizeStore();
+function readPose(out) {
+  // where a pulled-out book floats: in front of the camera, nudged aside so the card has room
+  const port = storePortrait(), wide = innerWidth >= 820;
+  sFwd.copy(sBase.look).sub(sBase.pos).normalize();
+  sRight.crossVectors(sFwd, V(0, 1, 0)).normalize();
+  out.copy(sBase.pos).addScaledVector(sFwd, port ? 2.0 : 1.42);
+  if (wide) out.addScaledVector(sRight, -0.42);
+  out.y += port ? 0.55 : -0.04;
+  return out;
+}
+const readPos = V(), worldTmp = V(), invM = new THREE.Matrix4();
+function updateStore(dt, time) {
+  // day light through the window, or lamps after dark
+  const k = nightK;
+  sHemi.intensity = lerp(1.05, 0.36, k); sHemi.color.set('#fff1dc').lerp(C('#c9b8ff'), k * 0.25);
+  sWin.intensity = lerp(1.6, 0.18, k); sWin.color.set('#fff4e0').lerp(C('#8fa6ff'), k);
+  pendants.forEach(p => { p.intensity = lerp(4, 11, k); });
+  featSpot.intensity = lerp(14, 30, k);
+  floorLampLight.intensity = lerp(1.5, 6, k);
+  winMat.color.set('#cfe4ff').lerp(C('#1d2a5a'), k);
+  // entering: dolly in from the doorway
+  enterT = Math.min(1, enterT + dt / (reduceMotion ? 0.01 : 1.9));
+  const e = 1 - Math.pow(1 - enterT, 3);
+  const px = coarse ? 0 : pointer.x, py = coarse ? 0 : pointer.y;
+  storeCam.position.set(lerp(0.4, sBase.pos.x, e) + px * 0.22 * e, lerp(1.78, sBase.pos.y, e) + py * 0.08 * e, lerp(5.8, sBase.pos.z, e));
+  sTmp.copy(sBase.look); sTmp.x += px * 0.35 * e; sTmp.y += py * 0.12 * e;
+  storeCam.lookAt(sTmp);
+  // books: hover nudge, pull out to read, slide back
+  featBay.updateMatrixWorld(); invM.copy(featBay.matrixWorld).invert();
+  readPose(readPos);
+  books3d.forEach(bk => {
+    bk.hover = damp(bk.hover, hoverBook === bk.i && selected < 0 ? 1 : 0, 10, dt);
+    bk.sel = damp(bk.sel, selected === bk.i ? 1 : 0, reduceMotion ? 30 : 4.2, dt);
+    const s = bk.sel * bk.sel * (3 - 2 * bk.sel);
+    sTmp2.copy(bk.home.pos); sTmp2.z += bk.hover * 0.12; sTmp2.y += bk.hover * 0.03;
+    worldTmp.copy(readPos).applyMatrix4(invM);
+    bk.m.position.lerpVectors(sTmp2, worldTmp, s);
+    bk.m.position.y += Math.sin(s * Math.PI) * 0.25 + (s > 0.98 ? Math.sin(time * 1.6) * 0.012 : 0);
+    bk.m.rotation.x = lerp(bk.home.rot.x, 0.02, s);
+    bk.m.rotation.y = lerp(bk.home.rot.y, -Math.PI / 2 + 0.22 + (s > 0.98 ? Math.sin(time * 1.1) * 0.03 : 0), s) + Math.sin(s * Math.PI) * 0.6;
+    bk.m.rotation.z = Math.sin(s * Math.PI) * 0.12;
+    bk.m.material[0].emissiveIntensity = 0.06 + bk.hover * 0.18 + s * 0.12;
+  });
+  cat.children[0].scale.y = 0.62 + Math.sin(time * 2.1) * 0.025;
+  // hover
+  if (pointerDirty && !coarse && !storeBusy) {
+    pointerDirty = false;
+    sRay.setFromCamera(pointer, storeCam);
+    const hit = sRay.intersectObjects(sPick, false)[0];
+    storeHover(hit ? hit.object.userData : null);
+  }
+}
+function storeHover(d) {
+  const i = d && d.book !== undefined ? d.book : -1;
+  hoverBook = i;
+  canvas.style.cursor = d ? 'pointer' : '';
+  if (d && selected < 0) {
+    tipEl.textContent = d.book !== undefined ? `${BLOGS[d.book].short} · pull it out` : d.ghost ? 'Next chapter: still being written' : d.cat ? 'Pages, the shop cat' : '';
+    tipEl.style.transform = `translate(${Math.min(pointerPx.x + 14, innerWidth - 260)}px, ${pointerPx.y + 16}px)`;
+    tipEl.hidden = false;
+  } else tipEl.hidden = true;
+}
+function storeClick(x, y) {
+  if (storeBusy) return;
+  sPtr.set(x / innerWidth * 2 - 1, -(y / innerHeight) * 2 + 1);
+  sRay.setFromCamera(sPtr, storeCam);
+  const hit = sRay.intersectObjects(sPick, false)[0];
+  const d = hit ? hit.object.userData : null;
+  if (!d) { if (selected >= 0) putBack(); return; }
+  if (d.book !== undefined) { selected === d.book ? putBack() : selectBook(d.book); }
+  else if (d.ghost) toast('Next chapter: still being written. Check back soon.');
+  else if (d.cat) { sfx('blip'); toast('This is Pages, the shop cat. She does not do code reviews.'); }
+}
+const pad2 = n => String(n).padStart(2, '0');
+function selectBook(i) {
+  if (i < 0 || i >= BLOGS.length) return;
+  selected = i; tipEl.hidden = true; sfx('page');
+  const b = BLOGS[i];
+  cardEl.innerHTML = `<p class="eyebrow">Book ${pad2(i + 1)} of ${pad2(BLOGS.length)} · ${b.date} · ${b.read}</p>
+    <h3 id="bookTitle">${b.title}</h3>
+    <p class="hand">${b.dek}</p>
+    <p>${b.desc}</p>
+    <ul class="tags">${b.tags.map(t => `<li>${t}</li>`).join('')}</ul>
+    <div class="row-btns"><a class="btn btn-ink" href="${b.url}" target="_blank" rel="noopener">Read the article ↗</a><button class="btn" type="button" data-put-back>Put it back</button></div>`;
+  cardEl.hidden = false; storeEl.classList.add('reading');
+  indexEl.querySelectorAll('button').forEach((bt, j) => bt.setAttribute('aria-pressed', j === i ? 'true' : 'false'));
+  setTimeout(() => { const a = cardEl.querySelector('a'); if (a && !storeBusy) a.focus({ preventScroll: true }); }, 60);
+}
+function putBack() {
+  if (selected < 0) return;
+  const was = selected; selected = -1; sfx('page');
+  cardEl.hidden = true; storeEl.classList.remove('reading');
+  indexEl.querySelectorAll('button').forEach(bt => bt.setAttribute('aria-pressed', 'false'));
+  const bt = indexEl.querySelectorAll('button')[was]; if (bt) bt.focus({ preventScroll: true });
+}
+cardEl.addEventListener('click', e => { if (e.target.closest('[data-put-back]')) putBack(); });
+BLOGS.forEach((b, i) => {
+  const bt = document.createElement('button');
+  bt.type = 'button'; bt.setAttribute('aria-pressed', 'false');
+  bt.innerHTML = `<span class="swatch" style="background:${b.color}"></span>${b.short}`;
+  bt.addEventListener('click', () => { selected === i ? putBack() : selectBook(i); });
+  indexEl.appendChild(bt);
+});
+function storeKey(e) {
+  if (storeBusy) { if (e.key !== 'Tab') e.preventDefault(); return; }
+  if (e.key === 'Escape') { e.preventDefault(); selected >= 0 ? putBack() : leaveStore(); }
+  else if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+    if (e.target && e.target.closest && e.target.closest('input, textarea')) return;
+    e.preventDefault();
+    const n = BLOGS.length, cur = selected < 0 ? (e.key === 'ArrowRight' ? -1 : n) : selected;
+    selectBook((cur + (e.key === 'ArrowRight' ? 1 : -1) + n) % n);
+  }
+}
+
+/* ---------- going in and coming out ---------- */
+const wait = ms => new Promise(r => setTimeout(r, ms));
+function fade(to, ms) {
+  const from = +getComputedStyle(fadeEl).opacity || 0;
+  fadeEl.style.opacity = String(to);
+  if (!fadeEl.animate || ms < 20) return Promise.resolve();
+  return fadeEl.animate([{ opacity: from }, { opacity: to }], { duration: ms, easing: 'ease-in-out' }).finished.catch(() => {});
+}
+let storeLastFocus = null;
+async function enterStore() {
+  if (storeActive || storeBusy || html.classList.contains('static')) return;
+  storeBusy = true; storeLastFocus = document.activeElement;
+  closeSheet(false); autoWalk = null; pending = null;
+  focusStop = byId.blogs; byId.blogs.visited = true;
+  byId.blogs.dot.classList.add('is-visited'); byId.blogs.pin.querySelector('.pin-n').textContent = '✓';
+  html.classList.add('store-entering', 'locked');
+  updatePrompt(true);
+  storeTarget = 1;
+  await wait(reduceMotion ? 80 : 650);
+  sfx('bell');
+  await wait(reduceMotion ? 40 : 650);
+  await fade(1, reduceMotion ? 80 : 380);
+  storeActive = true; enterT = 0; selected = -1; hoverBook = -1;
+  storeEl.hidden = false; html.classList.add('store-open');
+  try { history.replaceState(null, '', '#blogs'); } catch (e) {}
+  await fade(0, reduceMotion ? 80 : 700);
+  storeBusy = false;
+  $('#storeLeave').focus({ preventScroll: true });
+}
+async function leaveStore(then) {
+  if (!storeActive || storeBusy) return;
+  storeBusy = true; tipEl.hidden = true;
+  await fade(1, reduceMotion ? 80 : 320);
+  exitStoreNow();
+  await fade(0, reduceMotion ? 80 : 520);
+  storeBusy = false;
+  if (typeof then === 'function') then();
+  else if (storeLastFocus && storeLastFocus.focus) storeLastFocus.focus({ preventScroll: true });
+}
+function exitStoreNow() {
+  storeActive = false; storeTarget = 0; selected = -1; hoverBook = -1;
+  books3d.forEach(bk => { bk.sel = 0; });
+  cardEl.hidden = true; storeEl.classList.remove('reading'); storeEl.hidden = true; tipEl.hidden = true;
+  html.classList.remove('store-open', 'store-entering', 'locked');
+  canvas.style.cursor = '';
+  focusStop = null; clock.getDelta();
+  try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+  updatePrompt(true);
+}
+$('#storeLeave').addEventListener('click', () => leaveStore());
+$('#storePrev').addEventListener('click', () => leaveStore(() => goTo(byId.skills, true)));
+$('#storeNext').addEventListener('click', () => leaveStore(() => goTo(byId.contact, true)));
+
 const G = { p: V(), t: V(), l: V() };
 const angLerp = (a, b, t) => { const d = ((b - a + Math.PI) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2) - Math.PI; return a + d * t; };
 const clock = new THREE.Clock();
@@ -3062,6 +3765,9 @@ let commitsAll = false;
 
 function tick() {
   const dt = Math.min(clock.getDelta(), 0.05), time = clock.elapsedTime;
+  nightK = reduceMotion || firstFrame ? nightTarget : damp(nightK, nightTarget, 2.6, dt);
+  if (Math.abs(nightK - nightTarget) < 0.002) nightK = nightTarget;
+  if (storeActive) { updateStore(dt, time); renderer.render(storeScene, storeCam); return; }
 
   if (autoWalk) {
     const k = clamp((performance.now() - autoWalk.t0) / autoWalk.dur, 0, 1);
@@ -3108,7 +3814,7 @@ function tick() {
   prevPos.copy(stuPos); prevS = curS;
   if (speed > 0.4) facingBack = dir < 0;
   let want = Math.atan2(F.t.x, F.t.z) + (facingBack ? Math.PI : 0);
-  if (sheetOpen && focusStop && focusStop.camLook && speed < 0.5) { const lk = focusStop.camLook; want = Math.atan2(lk.x - stuPos.x, lk.z - stuPos.z); }
+  if ((sheetOpen || storeBusy) && focusStop && focusStop.camLook && speed < 0.5) { const lk = focusStop.camLook; want = Math.atan2(lk.x - stuPos.x, lk.z - stuPos.z); }
   yaw = firstFrame ? want : angLerp(yaw, want, 1 - Math.exp(-dt * 7));
   S.root.position.copy(stuPos); S.root.rotation.y = yaw;
   moveBlend = damp(moveBlend, clamp(speed / 1.3, 0, 1), 8, dt);
@@ -3126,8 +3832,6 @@ function tick() {
   S.head.rotation.x = Math.sin(time * 1.3) * 0.02 - 0.03 * idle;
 
   /* time of day, blended between the day walk and the night walk */
-  nightK = reduceMotion || firstFrame ? nightTarget : damp(nightK, nightTarget, 2.6, dt);
-  if (Math.abs(nightK - nightTarget) < 0.002) nightK = nightTarget;
   sampleDay(dayP);
   skyU.top.value.copy(day.top); skyU.horizon.value.copy(day.hor); skyU.sunCol.value.copy(day.sun); skyU.sunDir.value.copy(sunDir);
   scene.fog.color.copy(day.hor);
@@ -3229,6 +3933,15 @@ function tick() {
     const k = ease(clamp(focusT, 0, 1));
     tPos.lerp(focusStop.camPos, k); tLook.lerp(focusStop.camLook, k);
   }
+  // walking up to the bookstore door: the camera closes in and the doors swing open
+  storeK = damp(storeK, storeTarget, reduceMotion ? 20 : 2.4, dt);
+  if (storeK > 0.001) {
+    const k = ease(clamp(storeK, 0, 1));
+    tPos.lerp(SHOP.doorPos, k); tLook.lerp(SHOP.doorLook, k);
+  }
+  SHOP.doors.forEach(d => { d.rotation.y = d.userData.sd * -1.35 * smooth(0.35, 0.95, storeK); });
+  shopWinMat.color.set('#b9ae9c').lerp(C('#fff1d6'), smooth(0.1, 0.8, lit));
+  SHOP.paneMat.color.set('#cbbd9f').lerp(C('#ffd9a0'), lit);
   if (firstFrame) { camPos.copy(tPos); camLook.copy(tLook); }
   else { const kk = 1 - Math.exp(-dt * (reduceMotion ? 20 : 4.2)); camPos.lerp(tPos, kk); camLook.lerp(tLook, kk); }
   camera.position.copy(camPos); camera.lookAt(camLook);
@@ -3265,11 +3978,12 @@ function tick() {
 function onResize() {
   renderer.setSize(innerWidth, innerHeight, false);
   camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
+  resizeStore();
   const s = targetS; applyTrack(); scrollTo(0, s * pxPerM); readScroll();
 }
 addEventListener('resize', onResize);
 
-/* deep links: #about #work #projects #skills #contact #arcade #tennis #cricket #kites */
+/* deep links: #about #work #projects #skills #blogs #contact #arcade #tennis #cricket #kites */
 function fromHash() {
   const st = byId[(location.hash || '').slice(1)];
   if (!st) return;
@@ -3278,7 +3992,7 @@ function fromHash() {
   scrollTo(0, stationOf(target.path, target.u) * pxPerM); readScroll(); curS = targetS; firstFrame = true;
   if (st.kind !== 'junction') openStop(target);
 }
-addEventListener('hashchange', () => { if (!sheetOpen && !gameOpen) fromHash(); });
+addEventListener('hashchange', () => { if (!sheetOpen && !gameOpen && !storeActive && !storeBusy) fromHash(); });
 
 commitCount.textContent = `0/${COMMITS.length}`;
 readScroll();
@@ -3286,6 +4000,7 @@ fromHash();
 renderer.setAnimationLoop(tick);
 window.__walk = {
   STOPS, get s() { return curS; }, get route() { return route; }, get commits() { return commitsGot; }, goTo, openSheet, closeSheet, setStatic, setRoute,
+  enterStore, leaveStore, get inStore() { return storeActive; }, pickBook: i => selectBook(i),
   station: id => byId[id].s, snap() { readScroll(); curS = targetS; firstFrame = true; },
   jump(id, lane) {
     closeSheet(false);
