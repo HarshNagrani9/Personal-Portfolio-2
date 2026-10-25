@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Harsh Nagrani</title>
 <meta property="og:title" content="Harsh Nagrani · Walk me home">
-<meta property="og:description" content="Software engineer at IKS Health. Walk me home from the office past six checkpoints, including a bookstore of my writing, with a detour down Arcade Lane for tennis, gully cricket and a kite fight.">
+<meta property="og:description" content="Software engineer. Walk me home from the office past six checkpoints, including a bookstore of my writing, with a detour down Arcade Lane for tennis, gully cricket and a kite fight.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#232850">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231b2236'/%3E%3Cpath d='M32 10 50 32 32 54 14 32z' fill='%23ffd43c'/%3E%3C/svg%3E">
-<meta name="description" content="Harsh Nagrani, software engineer at IKS Health. Walk home from the office through six checkpoints, including a bookstore of his writing, with a detour down Arcade Lane for tennis, gully cricket and a kite fight.">
+<meta name="description" content="Harsh Nagrani, software engineer. Walk home from the office through six checkpoints, including a bookstore of his writing, with a detour down Arcade Lane for tennis, gully cricket and a kite fight.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@400;500&family=Shantell+Sans:wght@400;600&display=swap">
@@ -47,16 +47,8 @@
   --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   color-scheme:light;
 }
-/* night: the same graph paper, read under a desk lamp */
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --ink:#e8eaf4;--ink-2:#a6aec8;--paper:#141a2e;--card:#1b2340;--grid:rgba(150,180,255,.08);--rule:rgba(232,234,244,.2);
-    --margin:#f07567;--pen:#93b2ff;--dusk:#0b1022;--stage:#0a0d1c;--hud:#0f1427;--hud-fg:#eef0f7;--hud-line:rgba(238,240,247,.16);--shadow:#02040b;
-    --fade:#120c06;
-    color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
+/* night: the same graph paper, read under a desk lamp. Light is the default; the Night chip turns this on. */
+:root.night{
   --ink:#e8eaf4;--ink-2:#a6aec8;--paper:#141a2e;--card:#1b2340;--grid:rgba(150,180,255,.08);--rule:rgba(232,234,244,.2);
   --margin:#f07567;--pen:#93b2ff;--dusk:#0b1022;--stage:#0a0d1c;--hud:#0f1427;--hud-fg:#eef0f7;--hud-line:rgba(238,240,247,.16);--shadow:#02040b;
   --fade:#120c06;
@@ -430,38 +422,37 @@ button.chip:hover{color:var(--highlight)}
 }
 </style>
 <script>
-/* Light and dark follow the viewer's setting; the Night chip overrides it and is remembered on this device. */
+/* Light is the default. The Night chip switches to the night walk and is remembered on this device. */
 (function () {
-  var root = document.documentElement, KEY = 'walkhome-theme', mq = matchMedia('(prefers-color-scheme: dark)'), fns = [];
-  try { var s = localStorage.getItem(KEY); if (s === 'dark' || s === 'light') root.setAttribute('data-theme', s); } catch (e) {}
-  function isDark() { var t = root.getAttribute('data-theme'); return t === 'dark' || t === 'light' ? t === 'dark' : mq.matches; }
-  var last = null;
-  function sync() {
-    var d = isDark();
-    root.classList.toggle('night', d);
+  var root = document.documentElement, KEY = 'walkhome-theme', fns = [], dark = false;
+  try { dark = localStorage.getItem(KEY) === 'dark'; } catch (e) {}
+  function sync(changed) {
+    root.classList.toggle('night', dark);
     var bs = document.querySelectorAll('[data-night]');
-    for (var i = 0; i < bs.length; i++) bs[i].setAttribute('aria-pressed', d ? 'true' : 'false');
-    if (d !== last) { var was = last; last = d; if (was !== null) for (var j = 0; j < fns.length; j++) { try { fns[j](d); } catch (e) {} } }
+    for (var i = 0; i < bs.length; i++) bs[i].setAttribute('aria-pressed', dark ? 'true' : 'false');
+    if (changed) for (var j = 0; j < fns.length; j++) { try { fns[j](dark); } catch (e) {} }
   }
   window.__theme = {
-    get dark() { return isDark(); },
+    get dark() { return dark; },
     on: function (f) { fns.push(f); },
-    set: function (mode) { root.setAttribute('data-theme', mode); try { localStorage.setItem(KEY, mode); } catch (e) {} sync(); }
+    set: function (mode) {
+      var d = mode === 'dark';
+      try { localStorage.setItem(KEY, d ? 'dark' : 'light'); } catch (e) {}
+      if (d !== dark) { dark = d; sync(true); } else sync(false);
+    }
   };
-  if (mq.addEventListener) mq.addEventListener('change', sync); else if (mq.addListener) mq.addListener(sync);
-  new MutationObserver(sync).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
   document.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('[data-night]');
-    if (b) window.__theme.set(isDark() ? 'light' : 'dark');
+    if (b) window.__theme.set(dark ? 'light' : 'dark');
   });
-  document.addEventListener('DOMContentLoaded', sync);
-  sync();
+  document.addEventListener('DOMContentLoaded', function () { sync(false); });
+  sync(false);
 })();
 </script>
 
 </head>
 <body>
-<canvas id="scene" aria-label="3D street: Harsh walks home from the IKS Health office past six checkpoints" tabindex="-1"></canvas>
+<canvas id="scene" aria-label="3D street: Harsh walks home from the office past six checkpoints" tabindex="-1"></canvas>
 <div id="track" aria-hidden="true"></div>
 
 <header class="hud topbar">
@@ -498,7 +489,7 @@ button.chip:hover{color:var(--highlight)}
     <button class="btn btn-ink" id="startWalk" type="button">Start walking <span class="bob" aria-hidden="true">↓</span></button>
     <button class="btn" id="introText" type="button">Read as a page</button>
   </div>
-  <p class="intro-tip">Scroll to walk · click a checkpoint to open it · ← → to jump</p>
+  <p class="intro-tip">Scroll to walk · I stop at every checkpoint · click one to open it</p>
 </section>
 
 <div class="pins" id="pins"></div>
@@ -2090,7 +2081,7 @@ function groupAt(s) { const g = new THREE.Group(); g.position.set(s.x, 0, s.z); 
 const glassMat = M('#3d4c66');
 const LM = {};
 
-/* --- the office (start): IKS Health, where the walk begins --- */
+/* --- the office (start): where the walk begins --- */
 const officeLitMats = []; let officeLobbyMat, cabinLitMat;
 function curtainWall(cols, rows, w, h) {
   // a glass curtain wall drawn on canvas; a second canvas marks which panes glow after dark
@@ -2141,11 +2132,11 @@ function curtainWall(cols, rows, w, h) {
   box(14, 0.45, 5, '#1b2236', 0, 4.55, 7.3, office);
   box(14, 1.5, 0.3, '#1b2236', 0, 4.6, 9.66, office);
   for (const x of [-6.4, 6.4]) cyl(0.15, 0.15, 4.3, '#1b2236', x, 2.35, 9.3, office, 10);
-  const fascia = sign('IKS Health', { w: 1024, h: 140, width: 10.6, height: 1.45, bg: '#1b2236', fg: '#ffffff', spacing: '2px', glow: 0.55, font: '800 108px "Bricolage Grotesque", Arial, sans-serif' });
+  const fascia = sign('OFFICE', { w: 1024, h: 140, width: 10.6, height: 1.45, bg: '#1b2236', fg: '#ffffff', spacing: '28px', glow: 0.55, font: '800 108px "Bricolage Grotesque", Arial, sans-serif' });
   fascia.position.set(0, 4.6, 9.82); office.add(fascia);
   // name panel high on the tower
   box(13.4, 2.7, 0.3, '#1b2236', 0, 16.8, 5.22, office);
-  const top = sign('IKS Health', { w: 1024, h: 200, width: 12.6, height: 2.3, bg: '#1b2236', fg: '#ffffff', spacing: '3px', glow: 0.7, font: '800 150px "Bricolage Grotesque", Arial, sans-serif' });
+  const top = sign('OFFICE', { w: 1024, h: 200, width: 12.6, height: 2.3, bg: '#1b2236', fg: '#ffffff', spacing: '40px', glow: 0.7, font: '800 150px "Bricolage Grotesque", Arial, sans-serif' });
   top.position.set(0, 16.8, 5.38); office.add(top);
   // drop-off steps and bollards
   box(16, 0.24, 2.2, '#d6d0c4', 0, 0.12, 10.9, office);
@@ -3000,6 +2991,7 @@ function setRoute(r) {
   const pc = locate(curS), pt = locate(targetS);
   route = r; buildItin(r);
   curS = toStation(pc); targetS = toStation(pt); prevS = curS;
+  hold = null;
   applyTrack(); scrollTo(0, targetS * pxPerM);
   refreshStations();
   html.classList.toggle('on-lane', r === 'lane');
@@ -3017,12 +3009,12 @@ STOPS.forEach(st => {
   else { b.setAttribute('aria-label', 'Take Arcade Lane, three games'); b.innerHTML = `<span class="pin-n">↱</span><span class="pin-t">Arcade Lane</span><span class="pin-s">3 games</span>`; }
   b.addEventListener('click', () => activate(st));
   pinsEl.appendChild(b); st.pin = b;
-  if (st.kind === 'game') return;
+  if (st.kind !== 'cp') return;
   const d = document.createElement('button');
-  d.type = 'button'; d.className = 'rail-dot' + (st.kind === 'junction' ? ' arcade' : '');
+  d.type = 'button'; d.className = 'rail-dot';
   d.style.setProperty('--at', toP(st.u).toFixed(4));
-  d.setAttribute('aria-label', st.kind === 'cp' ? `Walk to checkpoint ${st.n}: ${st.label}` : 'Take Arcade Lane, three games');
-  d.innerHTML = st.kind === 'cp' ? `${st.n}<span>${st.label}</span>` : `▶<span>Arcade</span>`;
+  d.setAttribute('aria-label', `Walk to checkpoint ${st.n}: ${st.label}`);
+  d.innerHTML = `${st.n}<span>${st.label}</span>`;
   d.addEventListener('click', () => activate(st));
   railTrack.appendChild(d); st.dot = d;
 });
@@ -3041,7 +3033,50 @@ const F = { p: V(), t: V(), l: V() };
 let curLoc = { P: MAIN, u: 0 };
 
 buildItin('main'); applyTrack(); refreshStations();
-function readScroll() { if (html.classList.contains('static') || sheetOpen || gameOpen || storeActive || storeBusy) return; targetS = clamp(scrollY / pxPerM, 0, TOTAL); }
+/* Checkpoint stops. However hard someone scrolls, Harsh stops at the next checkpoint in that direction.
+   He stays there for the rest of that scroll gesture (momentum included); a new scroll walks him on.
+   A new gesture is a touch that starts again, or wheel/keys after a pause scaled to the frame rate. */
+let hold = null, frameMs = 16;
+const gestureGap = () => Math.max(260, frameMs * 2.5);
+function noteInput(e) {
+  if (!hold) return;
+  // the event's own timestamp is when the input happened, so a stalled frame never looks like a pause
+  const now = e && e.timeStamp > 0 ? e.timeStamp : performance.now();
+  if (e.type === 'touchstart' || now - hold.lastInput > gestureGap()) hold.release = true;
+  hold.lastInput = now;
+}
+addEventListener('wheel', noteInput, { passive: true });
+addEventListener('touchstart', noteInput, { passive: true });
+addEventListener('touchmove', noteInput, { passive: true });
+addEventListener('keydown', e => { if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', ' ', 'Home', 'End'].includes(e.key)) noteInput(e); });
+function gateStations() {
+  return STOPS.filter(st => st.s !== null && (st.kind === 'cp' || (st.kind === 'game' && route === 'lane'))).map(st => st.s).sort((a, b) => a - b);
+}
+function readScroll(bypass) {
+  if (html.classList.contains('static') || sheetOpen || gameOpen || storeActive || storeBusy) return;
+  let s = clamp(scrollY / pxPerM, 0, TOTAL);
+  if (bypass === true || autoWalk) { hold = null; targetS = s; return; }
+  const now = performance.now();
+  if (hold) {
+    // scrolling with no recent wheel, touch or key input (a dragged scrollbar) also counts as a new gesture after a pause
+    if (now - hold.lastInput > 600 && now - hold.lastScroll > gestureGap()) hold.release = true;
+    if (Math.abs(s - hold.s) > 0.02) {
+      if (hold.release) hold = null;                // a new scroll: walk on
+      else { s = hold.s; clampScroll(s); }          // same scroll still going: stay put
+    }
+    if (hold) hold.lastScroll = now;
+  }
+  if (!hold) {
+    const from = targetS, dir = Math.sign(s - from);
+    if (dir) {
+      const gs = gateStations();
+      const hit = dir > 0 ? gs.find(g => g > from + 0.05 && g <= s) : [...gs].reverse().find(g => g < from - 0.05 && g >= s);
+      if (hit !== undefined) { s = hit; hold = { s: hit, lastInput: now, lastScroll: now, release: false }; clampScroll(s); }
+    }
+  }
+  targetS = s;
+}
+function clampScroll(s) { const y = s * pxPerM; if (Math.abs(scrollY - y) > 0.5) scrollTo(0, y); }
 addEventListener('scroll', readScroll, { passive: true });
 
 /* ============================================================
@@ -3099,7 +3134,7 @@ function walkToS(s, open, then) {
   const dist = Math.abs(to - from) / pxPerM;
   if (dist < 0.6) { autoWalk = null; return; }
   const dur = reduceMotion ? 0 : clamp(700 + dist * 14, 700, 4600);
-  if (dur === 0) { scrollTo(0, to); readScroll(); return; }
+  if (dur === 0) { scrollTo(0, to); readScroll(true); return; }
   autoWalk = { from, to, t0: performance.now(), dur };
 }
 function goTo(st, open) {
@@ -3164,7 +3199,7 @@ function setStatic(on) {
     window.__setStatic(false);
     applyTrack();
     renderer.setAnimationLoop(tick);
-    requestAnimationFrame(() => { scrollTo(0, savedS * pxPerM); readScroll(); curS = targetS; firstFrame = true; });
+    requestAnimationFrame(() => { scrollTo(0, savedS * pxPerM); readScroll(true); curS = targetS; firstFrame = true; });
   }
 }
 $('#toText').addEventListener('click', () => setStatic(true));
@@ -3207,8 +3242,8 @@ function updatePrompt(force) {
   else if (nearStop) {
     const st = nearStop;
     key = 'near-' + st.id;
-    if (st.kind === 'cp') { text = `${st.id === 'blogs' ? 'Proofs &amp; Pages' : st.place}<small>${narrow ? `checkpoint ${st.n} of 6` : `checkpoint ${st.n} of 6 · click the marker or press Enter`}</small>`; btn = st.id === 'blogs' ? 'Enter the bookstore' : `Open ${st.label}`; }
-    else if (st.kind === 'game') { text = `${st.place}<small>Arcade Lane · game ${st.k} of 3</small>`; btn = st.play; }
+    if (st.kind === 'cp') { text = `${st.id === 'blogs' ? 'Proofs &amp; Pages' : st.place}<small>${narrow ? `checkpoint ${st.n} of 6` : `checkpoint ${st.n} of 6 · open it, or scroll again to walk on`}</small>`; btn = st.id === 'blogs' ? 'Enter the bookstore' : `Open ${st.label}`; }
+    else if (st.kind === 'game') { text = `${st.place}<small>Arcade Lane · game ${st.k} of 3${narrow ? '' : ' · or scroll again to walk on'}</small>`; btn = st.play; }
     else { text = `Arcade Lane<small>three games down this turn</small>`; btn = 'Take the lane'; }
   } else {
     const next = STOPS.filter(s => s.s !== null && s.s > curS + 2 && !(s.kind === 'junction' && route === 'lane')).sort((a, b) => a.s - b.s)[0];
@@ -3763,8 +3798,12 @@ const segDist = (px, pz, ax, az, bx, bz) => { const dx = bx - ax, dz = bz - az, 
 const cdummy = new THREE.Object3D();
 let commitsAll = false;
 
+let lastFrameT = 0;
 function tick() {
   const dt = Math.min(clock.getDelta(), 0.05), time = clock.elapsedTime;
+  const nowT = performance.now();
+  if (lastFrameT) frameMs = lerp(frameMs, Math.min(nowT - lastFrameT, 1000), 0.15);
+  lastFrameT = nowT;
   nightK = reduceMotion || firstFrame ? nightTarget : damp(nightK, nightTarget, 2.6, dt);
   if (Math.abs(nightK - nightTarget) < 0.002) nightK = nightTarget;
   if (storeActive) { updateStore(dt, time); renderer.render(storeScene, storeCam); return; }
@@ -3979,7 +4018,7 @@ function onResize() {
   renderer.setSize(innerWidth, innerHeight, false);
   camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
   resizeStore();
-  const s = targetS; applyTrack(); scrollTo(0, s * pxPerM); readScroll();
+  const s = targetS; applyTrack(); scrollTo(0, s * pxPerM); readScroll(true);
 }
 addEventListener('resize', onResize);
 
@@ -3989,24 +4028,26 @@ function fromHash() {
   if (!st) return;
   if (st.path === LANE || st.kind === 'junction') setRoute('lane');
   const target = st.kind === 'junction' ? byId.tennis : st;
-  scrollTo(0, stationOf(target.path, target.u) * pxPerM); readScroll(); curS = targetS; firstFrame = true;
+  scrollTo(0, stationOf(target.path, target.u) * pxPerM); readScroll(true); curS = targetS; firstFrame = true;
   if (st.kind !== 'junction') openStop(target);
 }
 addEventListener('hashchange', () => { if (!sheetOpen && !gameOpen && !storeActive && !storeBusy) fromHash(); });
 
 commitCount.textContent = `0/${COMMITS.length}`;
-readScroll();
+readScroll(true);
 fromHash();
 renderer.setAnimationLoop(tick);
 window.__walk = {
   STOPS, get s() { return curS; }, get route() { return route; }, get commits() { return commitsGot; }, goTo, openSheet, closeSheet, setStatic, setRoute,
+  get target() { return targetS; },
+  render(on) { renderer.setAnimationLoop(on ? tick : null); if (!on) frameMs = 16; },
   enterStore, leaveStore, get inStore() { return storeActive; }, pickBook: i => selectBook(i),
-  station: id => byId[id].s, snap() { readScroll(); curS = targetS; firstFrame = true; },
+  station: id => byId[id].s, snap() { readScroll(true); curS = targetS; firstFrame = true; },
   jump(id, lane) {
     closeSheet(false);
     if (lane !== undefined) { setRoute('lane'); scrollTo(0, stationOf(LANE, lane) * pxPerM); }
     else { const st = byId[id]; if (st.path === LANE) setRoute('lane'); scrollTo(0, stationOf(st.path, st.u) * pxPerM); }
-    readScroll(); curS = targetS; firstFrame = true;
+    readScroll(true); curS = targetS; firstFrame = true;
   },
   sites: () => GAMES3.map(g => ({ id: g.id, ok: g.site.ok, off: g.site.off, side: g.site.side, x: +g.site.x.toFixed(1), z: +g.site.z.toFixed(1), u: +g.u.toFixed(3) }))
 };
